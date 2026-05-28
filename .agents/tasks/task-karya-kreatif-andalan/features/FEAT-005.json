@@ -2,7 +2,7 @@
   "id": "FEAT-005",
   "type": "feat",
   "description": "Build the authentication flow with NextAuth/Auth.js integration, login/register pages, protected routes middleware, and role-based access control on the frontend. Also add the AI features stubs and final polish including proper error handling, 404 pages, and loading states.",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Set up Auth.js (NextAuth v5) in apps/web/ with credentials provider (email/password), Google provider, and custom WhatsApp OTP provider stub. Configure session strategy with JWT.",
     "Build Login page (app/auth/login/page.tsx) with email/password form, Google login button, WhatsApp OTP option, forgot password link, and register link. Modern split-screen design on desktop.",

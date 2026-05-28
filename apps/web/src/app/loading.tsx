@@ -1,28 +1,17 @@
-import { Skeleton } from '@/components/ui/skeleton';
+import { Car } from 'lucide-react';
 
 export default function Loading() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Hero skeleton */}
-      <div className="mb-8 space-y-4">
-        <Skeleton className="h-10 w-3/4" />
-        <Skeleton className="h-6 w-1/2" />
+    <div className="flex flex-col items-center justify-center min-h-[60vh]">
+      <div className="relative mb-4">
+        <div className="h-16 w-16 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Car className="h-6 w-6 text-primary" />
+        </div>
       </div>
-
-      {/* Content skeletons */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="rounded-xl border bg-card overflow-hidden">
-            <Skeleton className="aspect-video w-full" />
-            <div className="p-4 space-y-3">
-              <Skeleton className="h-5 w-3/4" />
-              <Skeleton className="h-4 w-1/2" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-9 w-full" />
-            </div>
-          </div>
-        ))}
-      </div>
+      <p className="text-sm text-muted-foreground animate-pulse">
+        Memuat halaman...
+      </p>
     </div>
   );
 }
