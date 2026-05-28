@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateCredentials, AUTH_COOKIE_NAME } from '@/lib/auth';
+import { signCookie } from '@/lib/cookie-utils';
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,7 +34,10 @@ export async function POST(request: NextRequest) {
       message: 'Login berhasil',
     });
 
-    response.cookies.set(AUTH_COOKIE_NAME, JSON.stringify({ id: user.id, email: user.email, role: user.role }), {
+    const cookieData = { id: user.id, email: user.email, role: user.role };
+    const signedValue = await signCookie(cookieData);
+
+    response.cookies.set(AUTH_COOKIE_NAME, signedValue, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

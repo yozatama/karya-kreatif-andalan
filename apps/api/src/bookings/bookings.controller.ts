@@ -93,7 +93,12 @@ export class BookingsController {
   @Post(':id/checkpoint')
   @ApiOperation({ summary: 'Add vehicle checkpoint to a booking' })
   @ApiResponse({ status: 201, description: 'Checkpoint added' })
-  async addCheckpoint(@Param('id') id: string, @Body() dto: CreateCheckpointDto) {
+  async addCheckpoint(@CurrentUser() user: any, @Param('id') id: string, @Body() dto: CreateCheckpointDto) {
+    const booking = await this.bookingsService.findById(id);
+    const isAdmin = ['SUPER_ADMIN', 'OPERATIONAL_ADMIN', 'FINANCE_ADMIN'].includes(user.role?.name);
+    if (booking.userId !== user.id && !isAdmin) {
+      throw new ForbiddenException('You do not have access to this booking');
+    }
     return this.bookingsService.addCheckpoint(id, dto);
   }
 }

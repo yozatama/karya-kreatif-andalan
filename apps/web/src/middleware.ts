@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { verifyCookie } from '@/lib/cookie-utils';
 
 const AUTH_COOKIE_NAME = 'kka-auth-token';
 
@@ -14,23 +15,25 @@ const adminRoutes = ['/admin'];
 
 const ADMIN_ROLES = ['admin'];
 
-function parseAuthCookie(cookieValue: string | undefined): { id: string; email: string; role: string } | null {
-  if (!cookieValue) return null;
-  try {
-    const parsed = JSON.parse(cookieValue);
-    if (parsed && parsed.id && parsed.role) {
-      return parsed;
+function parseAuthCookie(cookieValue: string | undefined): Promise<{ id: string; email: string; role: string } | null> {
+  if (!cookieValue) return Promise.resolve(null);
+
+  // Verify HMAC signature before trusting cookie data
+  return verifyCookie(cookieValue).then((data) => {
+    if (!data || typeof data !== 'object') return null;
+
+    const parsed = data as { id?: string; email?: string; role?: string };
+    if (parsed.id && parsed.role) {
+      return { id: parsed.id, email: parsed.email || '', role: parsed.role };
     }
     return null;
-  } catch {
-    return null;
-  }
+  }).catch(() => null);
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const cookieValue = request.cookies.get(AUTH_COOKIE_NAME)?.value;
-  const authData = parseAuthCookie(cookieValue);
+  const authData = await parseAuthCookie(cookieValue);
 
   // Check if the route is protected
   const isProtectedRoute = protectedRoutes.some((route) =>
