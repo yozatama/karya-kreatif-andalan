@@ -2,7 +2,7 @@
   "id": "FEAT-005",
   "type": "feat",
   "description": "Build the admin panel with all management features: dashboard analytics with Recharts, fleet management, booking management, user management, finance module, maintenance module, promo/marketing, CMS management, and reports. Implement role-based views for Super Admin, Operational Admin, Finance Admin, and Maintenance Team.",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Create apps/web/src/app/(admin)/layout.tsx - Admin layout with: full sidebar navigation organized by role sections, top header with admin user info/notifications/quick search (Command palette with shadcn Command), role indicator badge. Different nav items visible based on user role.",
     "Create apps/web/src/app/(admin)/admin/page.tsx - Admin Dashboard: revenue overview cards (total revenue, active rentals, pending bookings, fleet utilization %), revenue chart (Recharts LineChart - daily/weekly/monthly toggle), fleet status donut chart, active drivers bar chart, recent bookings table, maintenance alerts list, quick action buttons",

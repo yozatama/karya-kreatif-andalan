@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils';
 
-type StatusType = 'pending' | 'active' | 'confirmed' | 'completed' | 'cancelled' | 'overdue' | 'open' | 'in_progress' | 'closed' | 'paid' | 'rejected';
+type StatusType = 'pending' | 'active' | 'confirmed' | 'completed' | 'cancelled' | 'overdue' | 'open' | 'in_progress' | 'closed' | 'paid' | 'rejected' | 'refunded';
 
 const statusConfig: Record<StatusType, { label: string; className: string }> = {
   pending: { label: 'Menunggu', className: 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400' },
@@ -14,6 +14,7 @@ const statusConfig: Record<StatusType, { label: string; className: string }> = {
   closed: { label: 'Selesai', className: 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400' },
   paid: { label: 'Lunas', className: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400' },
   rejected: { label: 'Ditolak', className: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' },
+  refunded: { label: 'Refund', className: 'bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400' },
 };
 
 interface StatusBadgeProps {
