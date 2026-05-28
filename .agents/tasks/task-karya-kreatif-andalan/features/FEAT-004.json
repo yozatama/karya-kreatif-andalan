@@ -2,7 +2,7 @@
   "id": "FEAT-004",
   "type": "feat",
   "description": "Build the authenticated user dashboard and admin panel with all required features: user dashboard (rentals, payments, verification, support), admin panel (fleet management, bookings, users, finance, maintenance, promos, CMS, analytics) with role-based access, charts, and modern dashboard UI.",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Create apps/web/src/app/(auth)/login/page.tsx and register/page.tsx with authentication forms (email/password, Google OAuth button, WhatsApp OTP input), using react-hook-form + zod validation, and attractive split-screen layout",
     "Create apps/web/src/app/(dashboard)/layout.tsx with authenticated layout: collapsible sidebar navigation (different menus per role), top header with user avatar/notifications/search, breadcrumbs, and mobile bottom navigation bar",
