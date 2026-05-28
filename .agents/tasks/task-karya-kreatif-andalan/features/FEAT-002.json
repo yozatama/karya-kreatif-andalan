@@ -2,7 +2,7 @@
   "id": "FEAT-002",
   "type": "feat",
   "description": "Build the NestJS backend API with complete module implementations: authentication (JWT + Google + WhatsApp OTP), RBAC authorization, vehicle management CRUD, booking workflow, payment integration stubs, user verification, and seed data.",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "Implement AuthModule with JWT strategy, login/register endpoints, Google OAuth handler, WhatsApp OTP stub, token refresh, and guards. Create auth.controller.ts, auth.service.ts, jwt.strategy.ts, jwt-auth.guard.ts, roles.guard.ts, roles.decorator.ts.",
     "Implement UsersModule with user CRUD, profile management, document upload endpoints, driver verification workflow. Create users.controller.ts, users.service.ts, dto/create-user.dto.ts, dto/update-user.dto.ts.",
@@ -33,5 +33,5 @@
     "Verify TypeScript compilation has zero errors"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "Build succeeds with pnpm --filter api build. Prisma db push creates SQLite tables successfully. Seed script populates all demo data (roles, users, vehicles, bookings, payments, promos). All modules imported in AppModule. ThrottlerGuard getTracker uses req.ip. The PrismaModule is @Global so no need to import it in each module."
 }
