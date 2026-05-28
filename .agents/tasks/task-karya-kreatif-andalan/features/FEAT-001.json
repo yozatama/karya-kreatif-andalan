@@ -1,0 +1,33 @@
+{
+  "id": "FEAT-001",
+  "type": "chore",
+  "description": "Scaffold the monorepo structure with pnpm workspaces, configure all apps (Next.js 15 frontend, NestJS backend), shared packages (database with Prisma, shared types, UI components), and set up tooling (TypeScript, ESLint, Prettier, Turbo).",
+  "status": "in_progress",
+  "steps": [
+    "Create root package.json with pnpm workspace configuration, turbo.json for task orchestration, .npmrc, .gitignore, and pnpm-workspace.yaml defining apps/* and packages/*",
+    "Create apps/web as a Next.js 15 App Router project with TypeScript, TailwindCSS v4, and the following dependencies: next@15, react@19, tailwindcss, @tailwindcss/postcss, framer-motion, zustand, @tanstack/react-query, react-hook-form, @hookform/resolvers, zod, next-auth, lucide-react, recharts, clsx, tailwind-merge, class-variance-authority",
+    "Create apps/backend as a NestJS project with dependencies: @nestjs/core, @nestjs/common, @nestjs/platform-express, @nestjs/config, @nestjs/jwt, @nestjs/passport, passport, passport-jwt, class-validator, class-transformer, @prisma/client, bcrypt, uuid, multer",
+    "Create packages/database with Prisma schema containing the full database model (users, roles, vehicles, vehicle_categories, bookings, payments, invoices, penalties, maintenance_logs, vehicle_checkpoints, documents, driver_verifications, promos, notifications, support_tickets, and all relations)",
+    "Create packages/shared with shared TypeScript types, constants (role enums, booking status enums, payment status enums), and Zod validation schemas",
+    "Create packages/ui with shadcn/ui setup - utility functions (cn helper), and base component exports",
+    "Configure root tsconfig.json with path aliases, ESLint config, Prettier config",
+    "Add root scripts: build, dev, lint, test, format, db:generate, db:push",
+    "Create .env.example files for both apps with documented environment variables"
+  ],
+  "acceptance_criteria": [
+    "Running pnpm install succeeds without errors",
+    "Running pnpm build compiles both apps/web and apps/backend successfully",
+    "Running pnpm --filter database prisma generate succeeds",
+    "Running pnpm --filter database prisma validate succeeds",
+    "TypeScript compilation has no errors across all packages",
+    "The Prisma schema contains all 16+ entities with proper relations"
+  ],
+  "verification": [
+    "pnpm install",
+    "pnpm --filter database prisma validate",
+    "pnpm --filter database prisma generate",
+    "pnpm build"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

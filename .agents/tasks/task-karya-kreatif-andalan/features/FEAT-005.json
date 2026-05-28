@@ -1,0 +1,34 @@
+{
+  "id": "FEAT-005",
+  "type": "feat",
+  "description": "Add database seeders with comprehensive mock/demo data, create API documentation, add README with full project documentation, architecture diagrams, and ensure the complete platform builds and passes all checks.",
+  "status": "pending",
+  "steps": [
+    "Create packages/database/prisma/seed.ts with comprehensive seed data: 5 user roles, 10 sample users (different roles), 5 vehicle categories (sedan, MPV, SUV, electric motorcycle, pickup), 20 vehicles with realistic data (Toyota Avanza, Honda Brio, Wuling Air EV, Alva One, etc. with real pricing for Indonesian market), 15 bookings in various states, 10 payments, 5 maintenance logs, sample promos, sample support tickets, sample notifications",
+    "Add seed script to packages/database/package.json using ts-node/tsx to run seed.ts",
+    "Create docs/API.md with full REST API endpoint documentation organized by module (auth, users, vehicles, bookings, payments, maintenance, promos, support, analytics, upload) with request/response examples",
+    "Create docs/ARCHITECTURE.md with system architecture description, technology decisions, folder structure explanation, data flow diagrams (text-based), and deployment topology",
+    "Create docs/DATABASE.md with entity relationship descriptions, table schemas, index strategy, and query optimization notes",
+    "Create docs/FLOWS.md documenting: authentication flow, booking flow, payment flow (with Xendit), vehicle checkpoint flow, verification flow, admin approval workflows",
+    "Create comprehensive root README.md with: project overview, tech stack, quick start guide, development setup, environment variables documentation, project structure, available scripts, deployment guide, contributing guidelines",
+    "Create apps/backend/src/modules/auth/auth.service.spec.ts and apps/backend/src/modules/bookings/bookings.service.spec.ts with meaningful unit tests that test actual business logic (password hashing verification, JWT token generation, booking status transitions, payment validation)",
+    "Verify final build: ensure pnpm install, pnpm build (all apps), pnpm --filter backend test all pass cleanly"
+  ],
+  "acceptance_criteria": [
+    "Seed script is syntactically correct TypeScript that would populate all tables with realistic demo data",
+    "API documentation covers all endpoints with request/response examples",
+    "README provides clear setup instructions for new developers",
+    "Architecture documentation explains the system design decisions",
+    "pnpm install succeeds",
+    "pnpm build succeeds for all apps and packages",
+    "pnpm --filter backend test passes all unit tests",
+    "No TypeScript errors across the entire monorepo"
+  ],
+  "verification": [
+    "pnpm install",
+    "pnpm build",
+    "pnpm --filter backend test"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

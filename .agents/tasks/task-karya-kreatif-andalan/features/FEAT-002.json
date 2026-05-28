@@ -1,0 +1,38 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "Build the NestJS backend API with modular architecture including authentication (JWT), RBAC authorization, and core business modules (users, vehicles, bookings, payments, maintenance).",
+  "status": "pending",
+  "steps": [
+    "Create the NestJS app entry point (main.ts) with CORS, validation pipes, Swagger documentation setup, and global exception filters in apps/backend/src/",
+    "Create apps/backend/src/common/ with guards (JwtAuthGuard, RolesGuard), decorators (@Roles, @CurrentUser, @Public), interceptors (TransformInterceptor, LoggingInterceptor), filters (HttpExceptionFilter), and pipes (ValidationPipe)",
+    "Create apps/backend/src/modules/auth/ module with: AuthController (POST /auth/register, POST /auth/login, POST /auth/refresh, POST /auth/verify-otp, GET /auth/google), AuthService, JwtStrategy, GoogleStrategy, DTOs with class-validator",
+    "Create apps/backend/src/modules/users/ module with: UsersController (GET /users, GET /users/:id, PATCH /users/:id, DELETE /users/:id, POST /users/:id/verify), UsersService, DTOs",
+    "Create apps/backend/src/modules/vehicles/ module with: VehiclesController (CRUD + GET /vehicles/available, GET /vehicles/categories), VehiclesService, DTOs",
+    "Create apps/backend/src/modules/bookings/ module with: BookingsController (CRUD + POST /bookings/:id/approve, POST /bookings/:id/reject, POST /bookings/:id/return, POST /bookings/:id/checkpoint), BookingsService, DTOs",
+    "Create apps/backend/src/modules/payments/ module with: PaymentsController (POST /payments/create, POST /payments/webhook, GET /payments/:id, GET /payments/user/:userId), PaymentsService with Xendit integration placeholder, DTOs",
+    "Create apps/backend/src/modules/maintenance/ module with: MaintenanceController (CRUD for maintenance logs, service schedules), MaintenanceService, DTOs",
+    "Create apps/backend/src/modules/notifications/ module with: NotificationsService for WhatsApp API, email, and push notification placeholders",
+    "Create apps/backend/src/modules/promos/ module with: PromosController (CRUD + POST /promos/validate), PromosService, DTOs",
+    "Create apps/backend/src/modules/support/ module with: SupportController (CRUD for tickets), SupportService, DTOs",
+    "Create apps/backend/src/modules/analytics/ module with: AnalyticsController (GET /analytics/dashboard, GET /analytics/revenue, GET /analytics/fleet, GET /analytics/drivers), AnalyticsService",
+    "Create apps/backend/src/modules/upload/ module with: UploadController (POST /upload/image, POST /upload/document), UploadService with S3/R2 integration placeholder",
+    "Create PrismaModule as a global module wrapping PrismaClient from @packages/database",
+    "Create apps/backend/src/config/ with configuration files for database, jwt, storage, payment, and app settings",
+    "Write unit tests for AuthService and BookingsService in apps/backend/src/modules/auth/auth.service.spec.ts and apps/backend/src/modules/bookings/bookings.service.spec.ts"
+  ],
+  "acceptance_criteria": [
+    "Running pnpm --filter backend build compiles the NestJS app without errors",
+    "All modules are properly imported in AppModule",
+    "Guards and decorators are properly applied to protected routes",
+    "DTOs have proper class-validator decorators for input validation",
+    "Unit tests pass with pnpm --filter backend test",
+    "Swagger documentation is configured at /api/docs endpoint"
+  ],
+  "verification": [
+    "pnpm --filter backend build",
+    "pnpm --filter backend test"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

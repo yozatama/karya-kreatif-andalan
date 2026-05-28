@@ -1,0 +1,46 @@
+{
+  "id": "FEAT-004",
+  "type": "feat",
+  "description": "Build the authenticated user dashboard and admin panel with all required features: user dashboard (rentals, payments, verification, support), admin panel (fleet management, bookings, users, finance, maintenance, promos, CMS, analytics) with role-based access, charts, and modern dashboard UI.",
+  "status": "pending",
+  "steps": [
+    "Create apps/web/src/app/(auth)/login/page.tsx and register/page.tsx with authentication forms (email/password, Google OAuth button, WhatsApp OTP input), using react-hook-form + zod validation, and attractive split-screen layout",
+    "Create apps/web/src/app/(dashboard)/layout.tsx with authenticated layout: collapsible sidebar navigation (different menus per role), top header with user avatar/notifications/search, breadcrumbs, and mobile bottom navigation bar",
+    "Create apps/web/src/app/(dashboard)/dashboard/page.tsx as User Dashboard Home with: active rental card (vehicle info, remaining days, next payment), upcoming payments list, rental history summary, notification feed, estimated monthly earnings chart (Recharts), quick action buttons",
+    "Create apps/web/src/app/(dashboard)/bookings/ pages: booking list (filterable by status), new booking flow (vehicle selection -> duration -> agreement -> payment), booking detail page with status timeline",
+    "Create apps/web/src/app/(dashboard)/rentals/ pages: active rentals with vehicle details, rental countdown, payment schedule, vehicle report button, return request flow",
+    "Create apps/web/src/app/(dashboard)/checkpoint/ page with digital vehicle inspection: multi-step form for uploading photos (front, back, left, right, interior, odometer), checklist items (scratches, dents, cleanliness), notes input, and submission confirmation",
+    "Create apps/web/src/app/(dashboard)/payments/ pages: payment history table with filters, payment detail with invoice download, deposit tracking progress bar, installment schedule view",
+    "Create apps/web/src/app/(dashboard)/verification/ page with document upload flow: KTP upload, SIM upload, selfie upload, verification status indicator (pending/approved/rejected), re-upload option",
+    "Create apps/web/src/app/(dashboard)/support/ pages: ticket list, create new ticket form, ticket detail with chat-style messages, emergency help button with WhatsApp redirect",
+    "Create apps/web/src/app/(dashboard)/profile/ page with: personal info form, emergency contact form, password change, notification preferences toggles",
+    "Create apps/web/src/app/(admin)/layout.tsx with admin-specific sidebar (fleet, bookings, users, finance, maintenance, promos, CMS, reports)",
+    "Create apps/web/src/app/(admin)/dashboard/page.tsx as Admin Dashboard with: revenue overview cards, fleet utilization donut chart, active drivers count, monthly revenue bar chart (Recharts), recent bookings table, maintenance alerts, vehicle status breakdown",
+    "Create apps/web/src/app/(admin)/fleet/ pages: vehicle list table with search/filter/pagination, add/edit vehicle form (multi-step: basic info -> photos upload -> pricing -> availability), vehicle detail view",
+    "Create apps/web/src/app/(admin)/bookings/ pages: booking management table with approve/reject actions, booking detail with status management, vehicle assignment dropdown, rental extension form",
+    "Create apps/web/src/app/(admin)/users/ pages: user list table with verification status badges, user detail with documents viewer, approve/reject verification buttons, suspend/ban actions, fraud flags",
+    "Create apps/web/src/app/(admin)/finance/ pages: payment monitoring dashboard, deposit management table, penalty calculation form, revenue reports with date range filters, refund management, invoice generation button",
+    "Create apps/web/src/app/(admin)/maintenance/ pages: maintenance schedule calendar view, service log table, add maintenance record form, spare part inventory, cost tracking charts",
+    "Create apps/web/src/app/(admin)/promos/ pages: promo code list with usage stats, create/edit promo form (discount type, conditions, validity), referral system management, campaign creation",
+    "Create apps/web/src/app/(admin)/cms/ pages: landing page section editor, blog post editor (rich text), FAQ management, banner management with image upload",
+    "Create apps/web/src/app/(admin)/reports/ pages: revenue report with exportable charts, fleet utilization report, driver retention metrics, profitability dashboard per vehicle",
+    "Create apps/web/src/stores/ with Zustand stores: useAuthStore, useBookingStore, useFleetStore, useNotificationStore - managing client-side state",
+    "Create apps/web/src/hooks/ with custom hooks: useAuth, useApi (TanStack Query wrapper), useMediaQuery, useDebounce, useIntersectionObserver",
+    "Create apps/web/src/middleware.ts with Next.js middleware for route protection based on authentication and role"
+  ],
+  "acceptance_criteria": [
+    "Running pnpm --filter web build compiles successfully",
+    "All dashboard pages render with proper layout and mock data",
+    "Admin pages show different UI from user dashboard pages",
+    "Role-based navigation shows correct menu items per role",
+    "Charts render with mock data using Recharts",
+    "Forms have proper validation with error messages",
+    "Mobile responsive layout works with bottom navigation",
+    "Middleware properly protects authenticated routes"
+  ],
+  "verification": [
+    "pnpm --filter web build"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

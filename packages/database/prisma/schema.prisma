@@ -1,0 +1,518 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// =====================
+// ENUMS
+// =====================
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  CUSTOMER
+}
+
+enum VehicleStatus {
+  AVAILABLE
+  RENTED
+  MAINTENANCE
+  INACTIVE
+}
+
+enum TransmissionType {
+  MANUAL
+  AUTOMATIC
+}
+
+enum FuelType {
+  PETROL
+  DIESEL
+  ELECTRIC
+  HYBRID
+}
+
+enum BookingStatus {
+  PENDING
+  APPROVED
+  ACTIVE
+  COMPLETED
+  CANCELLED
+  REJECTED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  EXPIRED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  VIRTUAL_ACCOUNT
+  EWALLET
+  CREDIT_CARD
+  CASH
+}
+
+enum InvoiceStatus {
+  DRAFT
+  ISSUED
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+enum PenaltyType {
+  LATE_RETURN
+  DAMAGE
+  TRAFFIC_VIOLATION
+  FUEL_SHORTAGE
+  OTHER
+}
+
+enum PenaltyStatus {
+  PENDING
+  PAID
+  WAIVED
+}
+
+enum MaintenanceType {
+  ROUTINE
+  REPAIR
+  INSPECTION
+  EMERGENCY
+}
+
+enum CheckpointType {
+  PICKUP
+  RETURN
+}
+
+enum DocumentType {
+  KTP
+  SIM
+  SELFIE
+}
+
+enum DocumentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum VerificationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
+}
+
+enum NotificationType {
+  BOOKING
+  PAYMENT
+  PROMO
+  SYSTEM
+  VERIFICATION
+}
+
+enum TicketCategory {
+  BOOKING_ISSUE
+  PAYMENT_ISSUE
+  VEHICLE_ISSUE
+  ACCOUNT_ISSUE
+  OTHER
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+// =====================
+// MODELS
+// =====================
+
+model Role {
+  id          String @id @default(uuid())
+  name        String @unique
+  description String?
+
+  users User[]
+
+  @@map("roles")
+}
+
+model User {
+  id            String   @id @default(uuid())
+  email         String   @unique
+  phone         String?
+  name          String
+  passwordHash  String   @map("password_hash")
+  roleId        String   @map("role_id")
+  avatarUrl     String?  @map("avatar_url")
+  isVerified    Boolean  @default(false) @map("is_verified")
+  isActive      Boolean  @default(true) @map("is_active")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  role               Role                @relation(fields: [roleId], references: [id])
+  bookings           Booking[]
+  payments           Payment[]
+  invoices           Invoice[]
+  penalties          Penalty[]
+  documents          Document[]
+  driverVerification DriverVerification?
+  notifications      Notification[]
+  supportTickets     SupportTicket[]     @relation("TicketCreator")
+  assignedTickets    SupportTicket[]     @relation("TicketAssignee")
+  supportMessages    SupportMessage[]
+  auditLogs          AuditLog[]
+  approvedBookings   Booking[]           @relation("BookingApprover")
+  verifiedDocuments  Document[]          @relation("DocumentVerifier")
+  verifiedDrivers    DriverVerification[] @relation("DriverVerifier")
+  vehicleCheckpoints VehicleCheckpoint[]
+
+  @@index([email])
+  @@index([roleId])
+  @@map("users")
+}
+
+model VehicleCategory {
+  id          String  @id @default(uuid())
+  name        String
+  slug        String  @unique
+  description String?
+  icon        String?
+
+  vehicles Vehicle[]
+
+  @@map("vehicle_categories")
+}
+
+model Vehicle {
+  id             String           @id @default(uuid())
+  categoryId     String           @map("category_id")
+  name           String
+  brand          String
+  model          String
+  year           Int
+  plateNumber    String           @unique @map("plate_number")
+  color          String
+  transmission   TransmissionType
+  fuelType       FuelType         @map("fuel_type")
+  seats          Int
+  status         VehicleStatus    @default(AVAILABLE)
+  dailyRate      Decimal          @map("daily_rate") @db.Decimal(12, 2)
+  weeklyRate     Decimal?         @map("weekly_rate") @db.Decimal(12, 2)
+  monthlyRate    Decimal?         @map("monthly_rate") @db.Decimal(12, 2)
+  depositAmount  Decimal          @map("deposit_amount") @db.Decimal(12, 2)
+  images         Json?
+  description    String?          @db.Text
+  isAvailable    Boolean          @default(true) @map("is_available")
+  mileage        Int              @default(0)
+  createdAt      DateTime         @default(now()) @map("created_at")
+  updatedAt      DateTime         @updatedAt @map("updated_at")
+
+  category        VehicleCategory   @relation(fields: [categoryId], references: [id])
+  bookings        Booking[]
+  maintenanceLogs MaintenanceLog[]
+
+  @@index([categoryId])
+  @@index([status])
+  @@index([plateNumber])
+  @@map("vehicles")
+}
+
+model Booking {
+  id              String        @id @default(uuid())
+  userId          String        @map("user_id")
+  vehicleId       String        @map("vehicle_id")
+  startDate       DateTime      @map("start_date")
+  endDate         DateTime      @map("end_date")
+  durationDays    Int           @map("duration_days")
+  totalAmount     Decimal       @map("total_amount") @db.Decimal(12, 2)
+  depositAmount   Decimal       @map("deposit_amount") @db.Decimal(12, 2)
+  status          BookingStatus @default(PENDING)
+  pickupLocation  String?       @map("pickup_location")
+  returnLocation  String?       @map("return_location")
+  notes           String?       @db.Text
+  approvedBy      String?       @map("approved_by")
+  approvedAt      DateTime?     @map("approved_at")
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  user       User                @relation(fields: [userId], references: [id])
+  vehicle    Vehicle             @relation(fields: [vehicleId], references: [id])
+  approver   User?               @relation("BookingApprover", fields: [approvedBy], references: [id])
+  payments   Payment[]
+  invoices   Invoice[]
+  penalties  Penalty[]
+  checkpoints VehicleCheckpoint[]
+
+  @@index([userId])
+  @@index([vehicleId])
+  @@index([status])
+  @@map("bookings")
+}
+
+model Payment {
+  id             String        @id @default(uuid())
+  bookingId      String        @map("booking_id")
+  userId         String        @map("user_id")
+  amount         Decimal       @db.Decimal(12, 2)
+  paymentMethod  PaymentMethod @map("payment_method")
+  paymentChannel String?       @map("payment_channel")
+  externalId     String?       @map("external_id")
+  status         PaymentStatus @default(PENDING)
+  paidAt         DateTime?     @map("paid_at")
+  expiredAt      DateTime?     @map("expired_at")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([bookingId])
+  @@index([userId])
+  @@index([status])
+  @@map("payments")
+}
+
+model Invoice {
+  id            String        @id @default(uuid())
+  bookingId     String        @map("booking_id")
+  userId        String        @map("user_id")
+  invoiceNumber String        @unique @map("invoice_number")
+  amount        Decimal       @db.Decimal(12, 2)
+  taxAmount     Decimal       @map("tax_amount") @db.Decimal(12, 2)
+  totalAmount   Decimal       @map("total_amount") @db.Decimal(12, 2)
+  status        InvoiceStatus @default(DRAFT)
+  dueDate       DateTime      @map("due_date")
+  paidAt        DateTime?     @map("paid_at")
+  createdAt     DateTime      @default(now()) @map("created_at")
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([bookingId])
+  @@index([userId])
+  @@map("invoices")
+}
+
+model Penalty {
+  id          String        @id @default(uuid())
+  bookingId   String        @map("booking_id")
+  userId      String        @map("user_id")
+  type        PenaltyType
+  description String?       @db.Text
+  amount      Decimal       @db.Decimal(12, 2)
+  status      PenaltyStatus @default(PENDING)
+  createdAt   DateTime      @default(now()) @map("created_at")
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([bookingId])
+  @@index([userId])
+  @@map("penalties")
+}
+
+model MaintenanceLog {
+  id                String          @id @default(uuid())
+  vehicleId         String          @map("vehicle_id")
+  type              MaintenanceType
+  description       String?         @db.Text
+  cost              Decimal         @db.Decimal(12, 2)
+  performedBy       String?         @map("performed_by")
+  performedAt       DateTime        @map("performed_at")
+  nextMaintenanceAt DateTime?       @map("next_maintenance_at")
+  createdAt         DateTime        @default(now()) @map("created_at")
+
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+
+  @@index([vehicleId])
+  @@map("maintenance_logs")
+}
+
+model VehicleCheckpoint {
+  id            String         @id @default(uuid())
+  bookingId     String         @map("booking_id")
+  userId        String         @map("user_id")
+  type          CheckpointType
+  frontPhoto    String?        @map("front_photo")
+  backPhoto     String?        @map("back_photo")
+  leftPhoto     String?        @map("left_photo")
+  rightPhoto    String?        @map("right_photo")
+  interiorPhoto String?        @map("interior_photo")
+  odometerPhoto String?        @map("odometer_photo")
+  odometerValue Int?           @map("odometer_value")
+  fuelLevel     Int?           @map("fuel_level")
+  notes         String?        @db.Text
+  checklistData Json?          @map("checklist_data")
+  createdAt     DateTime       @default(now()) @map("created_at")
+
+  booking Booking @relation(fields: [bookingId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([bookingId])
+  @@index([userId])
+  @@map("vehicle_checkpoints")
+}
+
+model Document {
+  id             String         @id @default(uuid())
+  userId         String         @map("user_id")
+  type           DocumentType
+  fileUrl        String         @map("file_url")
+  status         DocumentStatus @default(PENDING)
+  rejectedReason String?        @map("rejected_reason")
+  verifiedBy     String?        @map("verified_by")
+  verifiedAt     DateTime?      @map("verified_at")
+  createdAt      DateTime       @default(now()) @map("created_at")
+
+  user     User  @relation(fields: [userId], references: [id])
+  verifier User? @relation("DocumentVerifier", fields: [verifiedBy], references: [id])
+
+  ktpVerifications    DriverVerification[] @relation("KtpDocument")
+  simVerifications    DriverVerification[] @relation("SimDocument")
+  selfieVerifications DriverVerification[] @relation("SelfieDocument")
+
+  @@index([userId])
+  @@index([type])
+  @@map("documents")
+}
+
+model DriverVerification {
+  id               String             @id @default(uuid())
+  userId           String             @unique @map("user_id")
+  ktpDocumentId    String?            @map("ktp_document_id")
+  simDocumentId    String?            @map("sim_document_id")
+  selfieDocumentId String?            @map("selfie_document_id")
+  status           VerificationStatus @default(PENDING)
+  verifiedBy       String?            @map("verified_by")
+  verifiedAt       DateTime?          @map("verified_at")
+  notes            String?            @db.Text
+  createdAt        DateTime           @default(now()) @map("created_at")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+
+  user           User      @relation(fields: [userId], references: [id])
+  verifier       User?     @relation("DriverVerifier", fields: [verifiedBy], references: [id])
+  ktpDocument    Document? @relation("KtpDocument", fields: [ktpDocumentId], references: [id])
+  simDocument    Document? @relation("SimDocument", fields: [simDocumentId], references: [id])
+  selfieDocument Document? @relation("SelfieDocument", fields: [selfieDocumentId], references: [id])
+
+  @@index([userId])
+  @@index([status])
+  @@map("driver_verifications")
+}
+
+model Promo {
+  id            String       @id @default(uuid())
+  code          String       @unique
+  name          String
+  description   String?      @db.Text
+  discountType  DiscountType @map("discount_type")
+  discountValue Decimal      @map("discount_value") @db.Decimal(12, 2)
+  minRentalDays Int?         @map("min_rental_days")
+  maxDiscount   Decimal?     @map("max_discount") @db.Decimal(12, 2)
+  usageLimit    Int?         @map("usage_limit")
+  usedCount     Int          @default(0) @map("used_count")
+  validFrom     DateTime     @map("valid_from")
+  validUntil    DateTime     @map("valid_until")
+  isActive      Boolean      @default(true) @map("is_active")
+  createdAt     DateTime     @default(now()) @map("created_at")
+
+  @@index([code])
+  @@map("promos")
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String           @map("user_id")
+  title     String
+  message   String           @db.Text
+  type      NotificationType
+  isRead    Boolean          @default(false) @map("is_read")
+  data      Json?
+  createdAt DateTime         @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([isRead])
+  @@map("notifications")
+}
+
+model SupportTicket {
+  id          String         @id @default(uuid())
+  userId      String         @map("user_id")
+  subject     String
+  description String         @db.Text
+  category    TicketCategory
+  priority    TicketPriority @default(MEDIUM)
+  status      TicketStatus   @default(OPEN)
+  assignedTo  String?        @map("assigned_to")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+
+  user     User             @relation("TicketCreator", fields: [userId], references: [id])
+  assignee User?            @relation("TicketAssignee", fields: [assignedTo], references: [id])
+  messages SupportMessage[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("support_tickets")
+}
+
+model SupportMessage {
+  id          String   @id @default(uuid())
+  ticketId    String   @map("ticket_id")
+  senderId    String   @map("sender_id")
+  message     String   @db.Text
+  attachments Json?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  ticket SupportTicket @relation(fields: [ticketId], references: [id])
+  sender User          @relation(fields: [senderId], references: [id])
+
+  @@index([ticketId])
+  @@map("support_messages")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?  @map("user_id")
+  action     String
+  entityType String   @map("entity_type")
+  entityId   String?  @map("entity_id")
+  oldValues  Json?    @map("old_values")
+  newValues  Json?    @map("new_values")
+  ipAddress  String?  @map("ip_address")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  user User? @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+  @@index([entityType])
+  @@map("audit_logs")
+}

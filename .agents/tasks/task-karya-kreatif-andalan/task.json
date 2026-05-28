@@ -1,0 +1,7 @@
+{
+  "task_id": "task-karya-kreatif-andalan",
+  "task_description": "Build a fullstack enterprise-grade web platform named 'Karya Kreatif Andalan' for car rental and electric motorcycle rental services targeting online ride-hailing drivers (GOJEK, Grab, Maxim, InDrive). Includes public website, user dashboard, admin panel, NestJS API backend, MySQL database schema, and comprehensive documentation.",
+  "status": "in_progress",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003", "FEAT-004", "FEAT-005"],
+  "blocked_reason": null
+}

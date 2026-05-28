@@ -1,0 +1,33 @@
+{
+  "name": "karya-kreatif-andalan",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Car and motorcycle rental platform",
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "prisma",
+      "bcrypt",
+      "sharp"
+    ]
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "db:generate": "pnpm --filter database prisma generate",
+    "db:push": "pnpm --filter database prisma db push"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.0",
+    "typescript": "^5.7.0",
+    "prettier": "^3.4.0"
+  },
+  "packageManager": "pnpm@10.28.1",
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

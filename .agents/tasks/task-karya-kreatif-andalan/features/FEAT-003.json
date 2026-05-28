@@ -1,0 +1,37 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "Build the Next.js 15 public website pages (landing, fleet listing, fleet detail, about, contact, FAQ, partnership, blog) with modern UI using shadcn/ui, TailwindCSS, Framer Motion animations, and mobile-first responsive design following the Karya Kreatif Andalan branding.",
+  "status": "pending",
+  "steps": [
+    "Create apps/web/src/app/layout.tsx with root layout including: Inter/Plus Jakarta Sans font, metadata with SEO tags, ThemeProvider for dark mode, QueryClientProvider, Toaster from sonner, and global CSS with the emerald green/dark navy/white/soft gray color palette defined as CSS variables",
+    "Create apps/web/src/components/layout/ with: Navbar (responsive with mobile hamburger menu, logo, nav links, auth buttons), Footer (company info, links, social media, WhatsApp floating button), MobileNav (slide-out drawer navigation)",
+    "Create apps/web/src/app/page.tsx as the Landing Page with sections: HeroSection (animated headline about rental untuk driver online, search form for vehicles, CTA buttons), BenefitsSection (icon cards - flexible rental, affordable pricing, well-maintained fleet, 24/7 support), WhyChooseUs (comparison with competitors), RentalProcess (step-by-step visual flow), PricingSection (pricing cards for cars and electric motorcycles), FleetShowcase (carousel of featured vehicles with specs and pricing), TestimonialsSection (driver testimonials with ratings), FAQSection (accordion FAQ), CTASection (final conversion CTA with WhatsApp link)",
+    "Create apps/web/src/app/fleet/page.tsx as the Fleet Listing Page with: search bar, filter sidebar (vehicle type, price range, transmission, availability, platform compatibility), sort options (price low/high, newest, most popular), vehicle grid cards with image, name, price/day, specs badges, availability indicator, and booking CTA button. Include skeleton loading states.",
+    "Create apps/web/src/app/fleet/[id]/page.tsx as the Fleet Detail Page with: image gallery (carousel), vehicle specifications table, rental pricing tiers (daily/weekly/monthly), estimated earnings calculator (based on Gojek/Grab rates), availability calendar, booking CTA with duration selector, terms and conditions accordion, related vehicles section",
+    "Create apps/web/src/app/about/page.tsx with company story, mission/vision, team section, company stats (total drivers served, total fleet, years operating)",
+    "Create apps/web/src/app/contact/page.tsx with contact form (react-hook-form + zod), office location map placeholder, WhatsApp direct link, email, phone, and operating hours",
+    "Create apps/web/src/app/faq/page.tsx with categorized FAQ accordion (rental process, payment, vehicle, partnership)",
+    "Create apps/web/src/app/partnership/page.tsx with partnership benefits, investment tiers, fleet partner registration form, ROI calculator",
+    "Create apps/web/src/app/blog/page.tsx as blog listing and apps/web/src/app/blog/[slug]/page.tsx as blog detail with mock articles about driver tips, earning optimization, rental guides",
+    "Create apps/web/src/components/ui/ with shadcn-style components: Button, Card, Input, Select, Badge, Dialog, Sheet, Accordion, Tabs, Skeleton, Avatar, Separator, DropdownMenu, Toast - all using class-variance-authority and tailwind-merge",
+    "Create apps/web/src/lib/ with: utils.ts (cn function), api.ts (axios/fetch wrapper for API calls), constants.ts (site config, nav links), mock-data.ts (vehicles, testimonials, FAQ data for demo)",
+    "Create apps/web/src/components/shared/ with reusable components: VehicleCard, PriceTag, AvailabilityBadge, SearchForm, SectionHeading, AnimatedCounter, WhatsAppFloatingButton",
+    "Add Framer Motion animations: fade-in on scroll for sections, stagger animations for card grids, hover effects on interactive elements, page transitions"
+  ],
+  "acceptance_criteria": [
+    "Running pnpm --filter web build compiles successfully with no TypeScript errors",
+    "All pages render with proper responsive layout (mobile-first)",
+    "The landing page has all required sections with mock data",
+    "Fleet listing page shows filterable vehicle cards",
+    "Fleet detail page shows complete vehicle information",
+    "Dark mode toggle works correctly",
+    "WhatsApp floating button is visible on all pages",
+    "Skeleton loading states are implemented for data-fetching components"
+  ],
+  "verification": [
+    "pnpm --filter web build"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

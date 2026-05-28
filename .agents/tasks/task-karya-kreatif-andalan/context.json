@@ -1,0 +1,22 @@
+{
+  "project_type": "Fullstack monorepo - Next.js 15 frontend + NestJS backend + MySQL database",
+  "language": "TypeScript",
+  "build_system": "pnpm workspaces monorepo with turbo for task orchestration",
+  "test_framework": "Jest for backend, Vitest for frontend",
+  "build_command": "pnpm build",
+  "test_command": "pnpm test",
+  "verification_instructions": "1. Run pnpm install at root. 2. Run pnpm build to verify both apps compile. 3. Run pnpm test to verify tests pass. 4. Run pnpm lint to check code quality.",
+  "snapshot_or_generated_files": "Prisma client generated from schema via 'pnpm --filter backend prisma generate'",
+  "setup_instructions": "1. pnpm install at root. 2. Copy .env.example files. 3. Run prisma generate.",
+  "environment_constraints": "OPEN_INTERNET - full network access. Node.js v22, pnpm 10.28.1 available. MySQL not running locally - schema validation only via prisma format/validate.",
+  "contribution_requirements": "Monorepo structure with shared packages. TypeScript strict mode. ESLint + Prettier for formatting.",
+  "key_patterns": "NestJS modular architecture with services/controllers/modules. Next.js App Router with server components. Prisma for DB access. Zod for validation. shadcn/ui components.",
+  "relevant_files": [
+    "packages/database/prisma/schema.prisma",
+    "apps/web/src/app/layout.tsx",
+    "apps/web/src/app/page.tsx",
+    "apps/backend/src/main.ts",
+    "apps/backend/src/app.module.ts"
+  ],
+  "directory_structure": "/ (root) - pnpm workspace monorepo. /apps/web - Next.js 15 frontend. /apps/backend - NestJS API. /packages/database - Prisma schema and client. /packages/shared - Shared types/constants. /packages/ui - Shared UI components."
+}
