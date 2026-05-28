@@ -2,7 +2,7 @@
   "id": "FEAT-001",
   "type": "chore",
   "description": "Set up monorepo structure with pnpm workspaces, turborepo, Next.js 15 frontend app, NestJS backend app, shared packages, and all base configurations (TypeScript, ESLint, Prettier, TailwindCSS, Prisma).",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "Create root package.json with pnpm workspaces config, turbo.json for build pipeline, pnpm-workspace.yaml listing apps/* and packages/*",
     "Create apps/web/ as a Next.js 15 App Router project with TypeScript, TailwindCSS v4, and base next.config.ts. Include src/app/layout.tsx with Inter font, metadata for SEO, and global styles.",
@@ -26,5 +26,5 @@
     "Run npx prisma generate --schema=apps/api/prisma/schema.prisma and confirm client generation"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "1. pnpm 10.x requires explicit onlyBuiltDependencies in package.json for native deps (prisma, bcrypt, sharp, @nestjs/core). 2. TailwindCSS 3.x with CSS variables requires defining colors in tailwind.config.ts using hsl(var(--varname)) pattern - cannot use @apply with undefined utility classes in globals.css. 3. npx picks latest prisma (v7) which is incompatible - must use pnpm --filter exec to use workspace version. 4. The .env file was created for apps/api to allow prisma generate to work locally."
 }
