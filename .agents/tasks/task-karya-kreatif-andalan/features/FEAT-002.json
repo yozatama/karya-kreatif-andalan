@@ -2,7 +2,7 @@
   "id": "FEAT-002",
   "type": "feat",
   "description": "Build the NestJS backend API with complete module implementations: authentication (JWT + Google + WhatsApp OTP), RBAC authorization, vehicle management CRUD, booking workflow, payment integration stubs, user verification, and seed data.",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Implement AuthModule with JWT strategy, login/register endpoints, Google OAuth handler, WhatsApp OTP stub, token refresh, and guards. Create auth.controller.ts, auth.service.ts, jwt.strategy.ts, jwt-auth.guard.ts, roles.guard.ts, roles.decorator.ts.",
     "Implement UsersModule with user CRUD, profile management, document upload endpoints, driver verification workflow. Create users.controller.ts, users.service.ts, dto/create-user.dto.ts, dto/update-user.dto.ts.",
