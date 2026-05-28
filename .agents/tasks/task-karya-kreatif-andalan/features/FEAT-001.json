@@ -1,0 +1,30 @@
+{
+  "id": "FEAT-001",
+  "type": "chore",
+  "description": "Set up monorepo structure with pnpm workspaces, turborepo, Next.js 15 frontend app, NestJS backend app, shared packages, and all base configurations (TypeScript, ESLint, Prettier, TailwindCSS, Prisma).",
+  "status": "in_progress",
+  "steps": [
+    "Create root package.json with pnpm workspaces config, turbo.json for build pipeline, pnpm-workspace.yaml listing apps/* and packages/*",
+    "Create apps/web/ as a Next.js 15 App Router project with TypeScript, TailwindCSS v4, and base next.config.ts. Include src/app/layout.tsx with Inter font, metadata for SEO, and global styles.",
+    "Set up shadcn/ui in apps/web/ with the emerald/navy color theme. Create components.json and install base components: Button, Card, Input, Badge, Sheet, Dialog, Tabs, Avatar, Dropdown Menu, Skeleton, Toast.",
+    "Create apps/api/ as a NestJS project with TypeScript. Include src/main.ts with CORS, validation pipes, swagger setup. Create base modules: AppModule, AuthModule, UsersModule, VehiclesModule, BookingsModule, PaymentsModule.",
+    "Create apps/api/prisma/schema.prisma with the full database schema including all entities: User, Role, Vehicle, VehicleCategory, Booking, BookingStatus, Payment, Invoice, Penalty, MaintenanceLog, VehicleCheckpoint, Document, DriverVerification, Promo, Notification, SupportTicket. Use SQLite provider for dev compatibility.",
+    "Create packages/shared/ with shared TypeScript types, enums (UserRole, BookingStatus, PaymentStatus, VehicleType), and Zod validation schemas for common entities.",
+    "Create .env.example files for both apps with all required environment variables documented.",
+    "Create root tsconfig.json, .gitignore, .prettierrc, and ESLint configs.",
+    "Run pnpm install and verify the workspace resolves correctly. Run prisma generate to create the Prisma client."
+  ],
+  "acceptance_criteria": [
+    "Running pnpm install at root succeeds without errors",
+    "Running pnpm build compiles both apps/web and apps/api successfully",
+    "Prisma client generates without errors from the schema",
+    "TypeScript compiles without errors across all packages"
+  ],
+  "verification": [
+    "Run pnpm install at root and confirm exit code 0",
+    "Run pnpm build and confirm both apps compile",
+    "Run npx prisma generate --schema=apps/api/prisma/schema.prisma and confirm client generation"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

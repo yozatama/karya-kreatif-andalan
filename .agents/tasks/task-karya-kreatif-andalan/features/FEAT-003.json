@@ -1,0 +1,38 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "Build the Next.js 15 public website with all pages: Landing page (hero, search, benefits, fleet showcase, pricing, testimonials, FAQ, CTA), Fleet listing with filters, Fleet detail with gallery and booking CTA, About Us, Contact Us, FAQ, Partnership, and Blog pages. Full responsive mobile-first design with Framer Motion animations, dark mode support, and SEO optimization.",
+  "status": "pending",
+  "steps": [
+    "Create the root layout (apps/web/src/app/layout.tsx) with Inter font, theme provider for dark mode, Toaster, and global navigation. Create a ThemeProvider using next-themes.",
+    "Build the Navbar component (components/layout/navbar.tsx) with logo, navigation links, mobile hamburger menu (Sheet component), dark mode toggle, and login/register buttons. Sticky on scroll with backdrop blur.",
+    "Build the Footer component (components/layout/footer.tsx) with company info, quick links, contact info, social media links, and WhatsApp floating button.",
+    "Build the Landing Page (app/page.tsx) with sections: HeroSection (animated headline, search form, stats counter), BenefitsSection (icon cards for why choose us), RentalProcessSection (step-by-step visual process), FleetShowcaseSection (featured vehicles carousel), PricingSection (pricing cards for different packages), TestimonialsSection (driver testimonials slider), FAQSection (accordion), CTASection (conversion-focused with WhatsApp link).",
+    "Build the Fleet Listing Page (app/fleet/page.tsx) with search bar, filter sidebar (vehicle type, price range, transmission, availability), sort dropdown, vehicle grid cards with skeleton loading, and pagination.",
+    "Build the Fleet Detail Page (app/fleet/[id]/page.tsx) with image gallery (lightbox), vehicle specs table, rental pricing breakdown, estimated earnings calculator, availability calendar, booking CTA button, and terms accordion.",
+    "Build the About Us page (app/about/page.tsx) with company story, mission/vision, team section, and statistics.",
+    "Build the Contact Us page (app/contact/page.tsx) with contact form (React Hook Form + Zod), map embed placeholder, office address, WhatsApp link, and email.",
+    "Build the FAQ page (app/faq/page.tsx) with categorized accordion sections (General, Booking, Payment, Vehicle, Account).",
+    "Build the Partnership page (app/partnership/page.tsx) with benefits for fleet partners, partnership tiers, application form, and testimonials from existing partners.",
+    "Build the Blog listing page (app/blog/page.tsx) with article cards, categories (Driver Tips, Earning Tips, Rental Guides), search, and featured article.",
+    "Build a Blog detail page (app/blog/[slug]/page.tsx) with article content, table of contents, related articles, and social share buttons.",
+    "Create reusable UI components: VehicleCard, PricingCard, TestimonialCard, ProcessStep, StatCounter (animated number), SectionHeading, SearchForm, FilterSidebar, WhatsAppFloatingButton.",
+    "Add Framer Motion animations: fade-in on scroll for sections, stagger animations for card grids, hover effects on cards, page transitions.",
+    "Implement SEO: dynamic metadata for all pages, OpenGraph tags, structured data (JSON-LD for LocalBusiness and Product), sitemap.ts, robots.ts.",
+    "Add mock data files (lib/mock-data.ts) with sample vehicles, testimonials, FAQs, blog posts for the public pages to render."
+  ],
+  "acceptance_criteria": [
+    "Running pnpm --filter web build compiles without errors",
+    "All public pages render with proper layout (navbar + footer)",
+    "Mobile responsive design works at 375px, 768px, 1024px, 1440px breakpoints",
+    "Dark mode toggle switches all pages correctly",
+    "SEO metadata is present in page source for all routes",
+    "Framer Motion animations trigger on scroll"
+  ],
+  "verification": [
+    "Run pnpm --filter web build and confirm successful Next.js build with all routes generated",
+    "Run pnpm --filter web lint and confirm no linting errors"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

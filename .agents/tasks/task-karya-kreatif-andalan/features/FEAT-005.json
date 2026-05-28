@@ -1,0 +1,34 @@
+{
+  "id": "FEAT-005",
+  "type": "feat",
+  "description": "Build the authentication flow with NextAuth/Auth.js integration, login/register pages, protected routes middleware, and role-based access control on the frontend. Also add the AI features stubs and final polish including proper error handling, 404 pages, and loading states.",
+  "status": "pending",
+  "steps": [
+    "Set up Auth.js (NextAuth v5) in apps/web/ with credentials provider (email/password), Google provider, and custom WhatsApp OTP provider stub. Configure session strategy with JWT.",
+    "Build Login page (app/auth/login/page.tsx) with email/password form, Google login button, WhatsApp OTP option, forgot password link, and register link. Modern split-screen design on desktop.",
+    "Build Register page (app/auth/register/page.tsx) with multi-step registration: personal info, platform selection (Gojek/Grab/Maxim/InDrive), account credentials. Include terms acceptance.",
+    "Build Forgot Password page (app/auth/forgot-password/page.tsx) and Reset Password page (app/auth/reset-password/page.tsx).",
+    "Create Next.js middleware (middleware.ts) for route protection: /dashboard/* requires authenticated user role, /admin/* requires admin roles, public routes accessible to all.",
+    "Create AuthProvider component wrapping SessionProvider, and useAuth custom hook for accessing session data throughout the app.",
+    "Build AI Booking Assistant component (components/ai/booking-assistant.tsx) as a floating chat widget with pre-built conversation flows for vehicle recommendations. Uses mock AI responses.",
+    "Build AI Damage Detection component (components/ai/damage-detection.tsx) for the vehicle checkpoint page - analyzes uploaded photos with a mock detection overlay showing detected areas.",
+    "Create proper error pages: app/not-found.tsx (custom 404), app/error.tsx (error boundary), app/loading.tsx (global loading).",
+    "Add proper meta robots, canonical URLs, and hreflang tags for SEO completeness.",
+    "Create a comprehensive README.md at the project root with: project overview, tech stack, getting started guide, folder structure explanation, environment variables documentation, development workflow, deployment guide, API documentation link, and contributing guidelines."
+  ],
+  "acceptance_criteria": [
+    "Auth.js configuration compiles without errors",
+    "Login and register pages render with proper validation",
+    "Middleware correctly identifies protected vs public routes",
+    "AI components render with mock data/responses",
+    "README.md provides complete project documentation",
+    "Full pnpm build succeeds for the entire monorepo"
+  ],
+  "verification": [
+    "Run pnpm build at root and confirm entire monorepo builds successfully",
+    "Run pnpm lint at root and confirm code passes linting",
+    "Verify README.md exists and documents the project comprehensively"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

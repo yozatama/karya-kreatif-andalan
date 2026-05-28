@@ -1,0 +1,44 @@
+{
+  "id": "FEAT-004",
+  "type": "feat",
+  "description": "Build the User Dashboard and Admin Panel with all features: user dashboard (active rentals, payments, vehicle checkpoint, verification, support), admin panel (analytics with Recharts, fleet management, booking management, user management, finance module, maintenance, promos, CMS, reports). Uses Zustand for state management and TanStack Query for API integration.",
+  "status": "pending",
+  "steps": [
+    "Create the dashboard layout (app/dashboard/layout.tsx) with sidebar navigation, top bar with user avatar/notifications, mobile bottom navigation, and breadcrumbs. Use Zustand store for sidebar state.",
+    "Build User Dashboard Home (app/dashboard/page.tsx) with cards: active rentals summary, upcoming payments, rental history preview, notifications feed, estimated monthly earnings chart (Recharts).",
+    "Build Vehicle Booking flow (app/dashboard/booking/page.tsx) with multi-step form: select vehicle (with real-time availability), choose duration, select pickup location, review digital agreement, confirm booking. Use React Hook Form with Zod validation.",
+    "Build My Rentals page (app/dashboard/rentals/page.tsx) with tabs: Active (rental status card, remaining days, payment progress), History (completed rentals table), and Return Request flow.",
+    "Build Digital Vehicle Checkpoint (app/dashboard/checkpoint/[id]/page.tsx) with photo upload zones (front, back, left, right, interior, dashboard), vehicle condition checklist, odometer input, digital signature, and submit flow.",
+    "Build Payments page (app/dashboard/payments/page.tsx) with payment methods display, invoice list with download, deposit tracker, installment schedule, and payment history table.",
+    "Build Driver Verification page (app/dashboard/verification/page.tsx) with document upload (KTP, SIM, Selfie), verification status timeline, and resubmit flow.",
+    "Build Support Center (app/dashboard/support/page.tsx) with ticket list, create ticket form, ticket detail with messages, and WhatsApp quick link.",
+    "Build Profile Settings (app/dashboard/settings/page.tsx) with personal info form, emergency contact, password change, and notification preferences toggles.",
+    "Create the Admin layout (app/admin/layout.tsx) with admin sidebar (different from user dashboard), role-based menu visibility, and admin top bar.",
+    "Build Admin Dashboard (app/admin/page.tsx) with Recharts analytics: revenue line chart, fleet utilization donut, booking bar chart, active drivers stat, monthly revenue comparison, maintenance alerts list.",
+    "Build Fleet Management (app/admin/fleet/page.tsx) with vehicle data table (sortable, filterable), add/edit vehicle dialog with image upload, pricing management, and availability toggle.",
+    "Build Booking Management (app/admin/bookings/page.tsx) with booking data table, status filters, approve/reject actions, assign vehicle dropdown, and booking detail panel.",
+    "Build User Management (app/admin/users/page.tsx) with user data table, document verification workflow (view uploaded docs, approve/reject), suspend/ban actions, driver history.",
+    "Build Finance Module (app/admin/finance/page.tsx) with tabs: Payments (monitoring table), Deposits (tracking), Penalties (calculation form), Revenue (report with charts), Refunds (management), Invoices (generation).",
+    "Build Maintenance Module (app/admin/maintenance/page.tsx) with service schedule calendar, repair history table, spare part tracking, and cost summary.",
+    "Build Promos Module (app/admin/promos/page.tsx) with promo code CRUD table, referral system stats, cashback campaign creation form.",
+    "Build CMS Module (app/admin/cms/page.tsx) with tabs: Landing Page (section editor), Blog (post CRUD with rich text), FAQ (CRUD), Banners (upload and manage).",
+    "Build Reports page (app/admin/reports/page.tsx) with downloadable reports: revenue, fleet utilization, driver retention, profitability dashboard with date range filters.",
+    "Create Zustand stores: useAuthStore, useDashboardStore, useBookingStore, useAdminStore with proper TypeScript typing.",
+    "Set up TanStack Query provider and create custom hooks for all API endpoints: useVehicles, useBookings, usePayments, useUsers, etc. with optimistic updates and proper caching.",
+    "Add loading skeletons for all data-fetching components, empty states for tables/lists, and toast notifications for actions."
+  ],
+  "acceptance_criteria": [
+    "Running pnpm --filter web build compiles the dashboard and admin routes without errors",
+    "All dashboard pages have proper loading skeletons and empty states",
+    "Admin analytics charts render with mock data",
+    "Zustand stores properly manage state across dashboard",
+    "All forms validate with Zod schemas before submission",
+    "Mobile bottom navigation appears on mobile viewport"
+  ],
+  "verification": [
+    "Run pnpm --filter web build and confirm all dashboard and admin routes compile",
+    "Run pnpm --filter web lint and confirm no errors"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

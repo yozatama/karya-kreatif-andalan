@@ -1,0 +1,24 @@
+{
+  "project_type": "Fullstack monorepo - Next.js 15 frontend + NestJS backend for car/motorcycle rental platform",
+  "language": "TypeScript",
+  "build_system": "pnpm workspaces monorepo with turbo",
+  "test_framework": "Jest for backend, Vitest for frontend",
+  "build_command": "pnpm build",
+  "test_command": "pnpm test",
+  "verification_instructions": "1. Run pnpm install at root. 2. Run pnpm build to verify both apps compile. 3. Run pnpm test to verify tests pass. 4. Run pnpm lint to check code quality.",
+  "snapshot_or_generated_files": "Prisma client generated via prisma generate in apps/api/",
+  "setup_instructions": "1. pnpm install at repo root. 2. Copy .env.example to .env in apps/web and apps/api. 3. Run prisma generate in apps/api.",
+  "environment_constraints": "Node.js v22, pnpm 10.x available. MySQL not installed - use SQLite for local dev/testing with Prisma. Full internet access available.",
+  "contribution_requirements": "Greenfield - establishing conventions with this implementation.",
+  "key_patterns": "Monorepo with apps/web (Next.js 15 App Router) and apps/api (NestJS). Shared packages in packages/ directory. Prisma ORM for database. shadcn/ui components. TailwindCSS styling. Mobile-first responsive design.",
+  "relevant_files": [
+    "apps/web/src/app/page.tsx",
+    "apps/web/src/app/layout.tsx",
+    "apps/api/src/main.ts",
+    "apps/api/prisma/schema.prisma",
+    "packages/shared/src/index.ts",
+    "turbo.json",
+    "pnpm-workspace.yaml"
+  ],
+  "directory_structure": "/ (root) - pnpm-workspace.yaml, turbo.json, package.json | apps/web/ - Next.js 15 frontend | apps/api/ - NestJS backend | packages/shared/ - shared types/utils | packages/ui/ - shared UI components"
+}

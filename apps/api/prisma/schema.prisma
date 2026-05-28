@@ -1,0 +1,271 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String               @id @default(cuid())
+  email              String               @unique
+  phone              String?              @unique
+  password           String
+  firstName          String
+  lastName           String
+  avatar             String?
+  isVerified         Boolean              @default(false)
+  isActive           Boolean              @default(true)
+  platform           String               @default("OTHER")
+  roleId             String
+  role               Role                 @relation(fields: [roleId], references: [id])
+  bookings           Booking[]
+  documents          Document[]
+  driverVerification DriverVerification?
+  notifications      Notification[]
+  supportTickets     SupportTicket[]
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+
+  @@index([email])
+  @@index([phone])
+  @@index([roleId])
+}
+
+model Role {
+  id          String @id @default(cuid())
+  name        String @unique
+  description String?
+  users       User[]
+}
+
+model Vehicle {
+  id              String            @id @default(cuid())
+  name            String
+  brand           String
+  model           String
+  year            Int
+  type            String
+  licensePlate    String            @unique
+  color           String
+  transmission    String
+  fuelType        String?
+  seats           Int?
+  pricePerDay     Float
+  pricePerWeek    Float?
+  pricePerMonth   Float?
+  deposit         Float
+  isAvailable     Boolean           @default(true)
+  images          String            @default("[]")
+  specs           String            @default("{}")
+  categoryId      String?
+  category        VehicleCategory?  @relation(fields: [categoryId], references: [id])
+  bookings        Booking[]
+  maintenanceLogs MaintenanceLog[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([type])
+  @@index([isAvailable])
+  @@index([categoryId])
+}
+
+model VehicleCategory {
+  id          String    @id @default(cuid())
+  name        String    @unique
+  description String?
+  icon        String?
+  vehicles    Vehicle[]
+}
+
+model Booking {
+  id                 String              @id @default(cuid())
+  userId             String
+  user               User                @relation(fields: [userId], references: [id])
+  vehicleId          String
+  vehicle            Vehicle             @relation(fields: [vehicleId], references: [id])
+  startDate          DateTime
+  endDate            DateTime
+  duration           Int
+  totalPrice         Float
+  depositAmount      Float
+  status             String              @default("PENDING")
+  pickupLocation     String?
+  notes              String?
+  payments           Payment[]
+  invoices           Invoice[]
+  penalties          Penalty[]
+  vehicleCheckpoints VehicleCheckpoint[]
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+
+  @@index([userId])
+  @@index([vehicleId])
+  @@index([status])
+  @@index([startDate])
+  @@index([endDate])
+}
+
+model Payment {
+  id        String   @id @default(cuid())
+  bookingId String
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+  amount    Float
+  method    String
+  status    String   @default("PENDING")
+  xenditId  String?
+  paidAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([bookingId])
+  @@index([status])
+}
+
+model Invoice {
+  id            String   @id @default(cuid())
+  bookingId     String
+  booking       Booking  @relation(fields: [bookingId], references: [id])
+  invoiceNumber String   @unique
+  amount        Float
+  dueDate       DateTime
+  status        String   @default("UNPAID")
+  pdfUrl        String?
+  createdAt     DateTime @default(now())
+
+  @@index([bookingId])
+  @@index([status])
+}
+
+model Penalty {
+  id          String   @id @default(cuid())
+  bookingId   String
+  booking     Booking  @relation(fields: [bookingId], references: [id])
+  type        String
+  amount      Float
+  description String?
+  photos      String   @default("[]")
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
+
+  @@index([bookingId])
+  @@index([status])
+}
+
+model MaintenanceLog {
+  id              String   @id @default(cuid())
+  vehicleId       String
+  vehicle         Vehicle  @relation(fields: [vehicleId], references: [id])
+  type            String
+  description     String?
+  cost            Float?
+  performedAt     DateTime?
+  nextScheduledAt DateTime?
+  status          String   @default("SCHEDULED")
+  createdAt       DateTime @default(now())
+
+  @@index([vehicleId])
+  @@index([status])
+}
+
+model VehicleCheckpoint {
+  id              String   @id @default(cuid())
+  bookingId       String
+  booking         Booking  @relation(fields: [bookingId], references: [id])
+  type            String
+  photos          String   @default("[]")
+  checklist       String   @default("{}")
+  odometerReading Int?
+  notes           String?
+  signature       String?
+  createdAt       DateTime @default(now())
+
+  @@index([bookingId])
+}
+
+model Document {
+  id                       String              @id @default(cuid())
+  userId                   String
+  user                     User                @relation(fields: [userId], references: [id])
+  type                     String
+  fileUrl                  String
+  status                   String              @default("PENDING")
+  rejectionReason          String?
+  verifiedAt               DateTime?
+  ktpVerification          DriverVerification? @relation("KtpDocument")
+  simVerification          DriverVerification? @relation("SimDocument")
+  selfieVerification       DriverVerification? @relation("SelfieDocument")
+  createdAt                DateTime            @default(now())
+
+  @@index([userId])
+  @@index([status])
+}
+
+model DriverVerification {
+  id               String    @id @default(cuid())
+  userId           String    @unique
+  user             User      @relation(fields: [userId], references: [id])
+  status           String    @default("PENDING")
+  ktpDocumentId    String?   @unique
+  ktpDocument      Document? @relation("KtpDocument", fields: [ktpDocumentId], references: [id])
+  simDocumentId    String?   @unique
+  simDocument      Document? @relation("SimDocument", fields: [simDocumentId], references: [id])
+  selfieDocumentId String?   @unique
+  selfieDocument   Document? @relation("SelfieDocument", fields: [selfieDocumentId], references: [id])
+  verifiedAt       DateTime?
+  notes            String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([status])
+}
+
+model Promo {
+  id            String   @id @default(cuid())
+  code          String   @unique
+  type          String
+  value         Float
+  minRentalDays Int?
+  maxDiscount   Float?
+  usageLimit    Int?
+  usedCount     Int      @default(0)
+  startDate     DateTime
+  endDate       DateTime
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  @@index([code])
+  @@index([isActive])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  title     String
+  message   String
+  type      String
+  isRead    Boolean  @default(false)
+  data      String   @default("{}")
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+}
+
+model SupportTicket {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  subject     String
+  description String
+  status      String   @default("OPEN")
+  priority    String   @default("MEDIUM")
+  messages    String   @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([priority])
+}

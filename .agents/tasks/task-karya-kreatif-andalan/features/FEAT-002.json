@@ -1,0 +1,37 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "Build the NestJS backend API with complete module implementations: authentication (JWT + Google + WhatsApp OTP), RBAC authorization, vehicle management CRUD, booking workflow, payment integration stubs, user verification, and seed data.",
+  "status": "pending",
+  "steps": [
+    "Implement AuthModule with JWT strategy, login/register endpoints, Google OAuth handler, WhatsApp OTP stub, token refresh, and guards. Create auth.controller.ts, auth.service.ts, jwt.strategy.ts, jwt-auth.guard.ts, roles.guard.ts, roles.decorator.ts.",
+    "Implement UsersModule with user CRUD, profile management, document upload endpoints, driver verification workflow. Create users.controller.ts, users.service.ts, dto/create-user.dto.ts, dto/update-user.dto.ts.",
+    "Implement VehiclesModule with full CRUD for vehicles and categories, availability checking, pricing management, image upload endpoints. Create vehicles.controller.ts, vehicles.service.ts, dto/create-vehicle.dto.ts, vehicle-categories.controller.ts.",
+    "Implement BookingsModule with the full booking workflow: create booking, admin approve/reject, assign vehicle, digital checkpoint, activate rental, extend rental, return request, final inspection, complete. Create bookings.controller.ts, bookings.service.ts with state machine logic, dto/ files.",
+    "Implement PaymentsModule with Xendit payment integration stubs (Virtual Account, E-wallet, QRIS), invoice generation, deposit tracking, installment tracking, penalty calculation. Create payments.controller.ts, payments.service.ts, xendit.service.ts (stubbed).",
+    "Implement MaintenanceModule for vehicle maintenance schedules, repair history, cost tracking. Create maintenance.controller.ts, maintenance.service.ts.",
+    "Implement NotificationsModule with email and WhatsApp notification stubs, push notification service. Create notifications.controller.ts, notifications.service.ts.",
+    "Implement SupportModule for support tickets and basic ticketing system. Create support.controller.ts, support.service.ts.",
+    "Implement PromosModule for promo codes, referral system, cashback campaigns. Create promos.controller.ts, promos.service.ts.",
+    "Implement AdminModule with dashboard analytics endpoints (revenue, fleet utilization, booking stats, driver retention). Create admin.controller.ts, admin.service.ts.",
+    "Create PrismaModule as a global service (prisma.service.ts) that handles connection lifecycle.",
+    "Create a comprehensive seed script at apps/api/prisma/seed.ts that populates: 5 user roles, 10 sample users (1 per role + extras), 5 vehicle categories, 15 vehicles (mix of cars and electric motorcycles), 5 sample bookings in various states, sample payments, and promo codes.",
+    "Add Swagger/OpenAPI documentation decorators to all controllers.",
+    "Add class-validator DTOs with proper validation decorators for all endpoints.",
+    "Create rate-limiting middleware and audit log interceptor."
+  ],
+  "acceptance_criteria": [
+    "Running pnpm build in apps/api compiles without TypeScript errors",
+    "All API modules are properly imported in AppModule",
+    "Prisma seed script runs successfully and populates demo data",
+    "Swagger documentation is generated at /api/docs endpoint"
+  ],
+  "verification": [
+    "Run pnpm --filter api build and confirm successful compilation",
+    "Run npx prisma db push --schema=apps/api/prisma/schema.prisma to create tables",
+    "Run npx prisma db seed to populate demo data",
+    "Verify TypeScript compilation has zero errors"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}
