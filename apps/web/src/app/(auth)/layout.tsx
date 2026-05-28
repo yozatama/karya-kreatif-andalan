@@ -1,0 +1,15 @@
+export const metadata = {
+  title: 'Masuk',
+};
+
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center bg-muted/30 p-4">
+      <div className="mb-8 text-center">
+        <h1 className="text-2xl font-bold text-primary">Karya Kreatif Andalan</h1>
+        <p className="text-sm text-muted-foreground mt-1">Platform Rental Kendaraan Driver Online</p>
+      </div>
+      <div className="w-full max-w-md">{children}</div>
+    </div>
+  );
+}

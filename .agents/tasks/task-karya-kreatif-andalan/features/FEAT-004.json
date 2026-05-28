@@ -2,7 +2,7 @@
   "id": "FEAT-004",
   "type": "feat",
   "description": "Build the authenticated user dashboard with all driver-facing features: dashboard home, vehicle booking flow, active rentals management, digital vehicle checkpoint, payments, driver verification, support center, and profile settings. Implement with Zustand state management, TanStack Query for server state, and dark mode support.",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Create apps/web/src/app/(dashboard)/layout.tsx - Dashboard layout with: collapsible sidebar navigation (desktop), bottom tab navigation (mobile), top header with user avatar/notifications bell/theme toggle, breadcrumbs. Use Zustand store for sidebar state.",
     "Create apps/web/src/stores/ with: auth.store.ts (user session, tokens), ui.store.ts (sidebar open/closed, theme, mobile nav), notifications.store.ts (unread count, notification list)",
