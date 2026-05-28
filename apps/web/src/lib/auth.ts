@@ -45,7 +45,7 @@ export const AUTH_COOKIE_NAME = 'kka-auth-token';
 export async function getCurrentUser(token: string | undefined): Promise<AuthUser | null> {
   if (!token) return null;
   try {
-    // Try verifying as signed cookie (new format: base64.hmac)
+    // Verify signed cookie (format: base64.hmac)
     const data = await verifyCookie(token);
     if (data && typeof data === 'object' && 'id' in data) {
       const parsed = data as { id: string; email?: string };
@@ -56,18 +56,6 @@ export async function getCurrentUser(token: string | undefined): Promise<AuthUse
     // Verification failed - cookie is invalid or tampered
   }
 
-  // Fallback: try parsing as unsigned JSON (legacy format)
-  try {
-    const parsed = JSON.parse(token);
-    if (parsed && parsed.id) {
-      const user = MOCK_USERS.find((u) => u.id === parsed.id || u.email === parsed.email);
-      return user || null;
-    }
-  } catch {
-    // Final fallback: treat as raw user ID for backward compatibility
-    const user = MOCK_USERS.find((u) => u.id === token || u.email === token);
-    return user || null;
-  }
   return null;
 }
 
