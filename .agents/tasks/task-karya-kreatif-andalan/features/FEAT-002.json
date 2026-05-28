@@ -2,7 +2,7 @@
   "id": "FEAT-002",
   "type": "feat",
   "description": "Build the NestJS backend API with modular architecture: authentication (JWT + Google + OTP), RBAC authorization, and core CRUD modules for vehicles, bookings, payments, users, and verification.",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "Create apps/api/src/common/ with shared decorators (@Roles, @CurrentUser, @Public), guards (JwtAuthGuard, RolesGuard), interceptors (TransformInterceptor, LoggingInterceptor), filters (HttpExceptionFilter), and pipes (ValidationPipe)",
     "Create apps/api/src/modules/auth/ module with: auth.controller.ts (POST /auth/register, POST /auth/login, POST /auth/google, POST /auth/otp/send, POST /auth/otp/verify, POST /auth/refresh, GET /auth/me), auth.service.ts (register, login, validateGoogleToken, sendOTP, verifyOTP, refreshToken), jwt.strategy.ts, local.strategy.ts, DTOs with class-validator",
@@ -37,5 +37,5 @@
     "cd /projects/sandbox/karya-kreatif-andalan/apps/api && npx ts-node -e \"console.log('API compiles')\"" 
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "Disabled strictPropertyInitialization in tsconfig since NestJS DTOs are populated by class-transformer at runtime, not via constructors. Used default import for dayjs (not namespace import) due to esModuleInterop. Used crypto.randomUUID instead of uuid package to avoid type issues with uuid@10. Added @types/express and @types/passport-local to devDependencies. All 13 modules compile cleanly with nest build."
 }
