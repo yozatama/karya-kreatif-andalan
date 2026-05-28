@@ -2,7 +2,7 @@
   "id": "FEAT-003",
   "type": "feat",
   "description": "Build the Next.js 15 public website pages (landing, fleet listing, fleet detail, about, contact, FAQ, partnership, blog) with modern UI using shadcn/ui, TailwindCSS, Framer Motion animations, and mobile-first responsive design following the Karya Kreatif Andalan branding.",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "Create apps/web/src/app/layout.tsx with root layout including: Inter/Plus Jakarta Sans font, metadata with SEO tags, ThemeProvider for dark mode, QueryClientProvider, Toaster from sonner, and global CSS with the emerald green/dark navy/white/soft gray color palette defined as CSS variables",
     "Create apps/web/src/components/layout/ with: Navbar (responsive with mobile hamburger menu, logo, nav links, auth buttons), Footer (company info, links, social media, WhatsApp floating button), MobileNav (slide-out drawer navigation)",
@@ -33,5 +33,5 @@
     "pnpm --filter web build"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "Build compiles cleanly with all pages generating correctly. 10 routes total (8 static, 2 dynamic). First Load JS shared is 102KB. Used framer-motion for animations throughout. All UI components use CVA + tailwind-merge pattern. TailwindCSS v4 @theme directive used for color definitions. react-hook-form + zod validation on contact form. All text content in Bahasa Indonesia."
 }
