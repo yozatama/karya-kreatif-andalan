@@ -2,6 +2,7 @@ import {
   Injectable,
   NotFoundException,
   BadRequestException,
+  ForbiddenException,
 } from "@nestjs/common";
 import { PrismaService } from "../../prisma/prisma.service";
 import { CreateBookingDto } from "./dto/create-booking.dto";
@@ -36,7 +37,7 @@ export class BookingsService {
     };
   }
 
-  async findOne(id: string) {
+  async findOne(id: string, requestingUser?: { id: string; role?: { name: string } }) {
     const booking = await this.prisma.booking.findUnique({
       where: { id },
       include: {
@@ -49,6 +50,11 @@ export class BookingsService {
     if (!booking) {
       throw new NotFoundException("Booking not found");
     }
+
+    if (requestingUser) {
+      this.verifyOwnership(booking, requestingUser);
+    }
+
     return booking;
   }
 
@@ -70,6 +76,22 @@ export class BookingsService {
 
     if (endDate <= startDate) {
       throw new BadRequestException("End date must be after start date");
+    }
+
+    // Check for overlapping bookings on the same vehicle
+    const overlapping = await this.prisma.booking.findFirst({
+      where: {
+        vehicleId: dto.vehicleId,
+        status: { in: ["PENDING", "APPROVED", "ACTIVE"] },
+        startDate: { lt: endDate },
+        endDate: { gt: startDate },
+      },
+    });
+
+    if (overlapping) {
+      throw new BadRequestException(
+        "Vehicle already has a booking for the requested dates",
+      );
     }
 
     const durationDays = Math.ceil(
@@ -133,8 +155,11 @@ export class BookingsService {
     });
   }
 
-  async returnVehicle(id: string) {
+  async returnVehicle(id: string, requestingUser: { id: string; role?: { name: string } }) {
     const booking = await this.findOne(id);
+
+    this.verifyOwnership(booking, requestingUser);
+
     if (booking.status !== "ACTIVE") {
       throw new BadRequestException("Only active bookings can be returned");
     }
@@ -151,8 +176,15 @@ export class BookingsService {
     });
   }
 
-  async createCheckpoint(bookingId: string, userId: string, dto: CreateCheckpointDto) {
-    await this.findOne(bookingId);
+  async createCheckpoint(
+    bookingId: string,
+    userId: string,
+    dto: CreateCheckpointDto,
+    requestingUser: { id: string; role?: { name: string } },
+  ) {
+    const booking = await this.findOne(bookingId);
+
+    this.verifyOwnership(booking, requestingUser);
 
     return this.prisma.vehicleCheckpoint.create({
       data: {
@@ -161,5 +193,16 @@ export class BookingsService {
         ...dto,
       },
     });
+  }
+
+  private verifyOwnership(
+    booking: { userId: string },
+    user: { id: string; role?: { name: string } },
+  ): void {
+    const isAdmin =
+      user.role?.name === "ADMIN" || user.role?.name === "SUPER_ADMIN";
+    if (!isAdmin && booking.userId !== user.id) {
+      throw new ForbiddenException("You do not have access to this booking");
+    }
   }
 }

@@ -32,8 +32,8 @@ export class BookingsController {
   }
 
   @Get(":id")
-  findOne(@Param("id") id: string) {
-    return this.bookingsService.findOne(id);
+  findOne(@Param("id") id: string, @CurrentUser() user: any) {
+    return this.bookingsService.findOne(id, user);
   }
 
   @Post()
@@ -62,17 +62,17 @@ export class BookingsController {
 
   @Post(":id/return")
   @HttpCode(HttpStatus.OK)
-  returnVehicle(@Param("id") id: string) {
-    return this.bookingsService.returnVehicle(id);
+  returnVehicle(@Param("id") id: string, @CurrentUser() user: any) {
+    return this.bookingsService.returnVehicle(id, user);
   }
 
   @Post(":id/checkpoint")
   @HttpCode(HttpStatus.CREATED)
   createCheckpoint(
     @Param("id") bookingId: string,
-    @CurrentUser("id") userId: string,
+    @CurrentUser() user: any,
     @Body() dto: CreateCheckpointDto,
   ) {
-    return this.bookingsService.createCheckpoint(bookingId, userId, dto);
+    return this.bookingsService.createCheckpoint(bookingId, user.id, dto, user);
   }
 }

@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PrismaService } from "../../prisma/prisma.service";
 import { CreatePaymentDto } from "./dto/create-payment.dto";
@@ -39,8 +43,15 @@ export class PaymentsService {
     };
   }
 
-  async handleWebhook(payload: any) {
-    // Placeholder: Xendit webhook handling
+  async handleWebhook(callbackToken: string | undefined, payload: any) {
+    const expectedToken = this.configService.get<string>(
+      "payment.xenditCallbackToken",
+    );
+
+    if (!expectedToken || callbackToken !== expectedToken) {
+      throw new UnauthorizedException("Invalid callback token");
+    }
+
     const { external_id, status } = payload;
 
     if (external_id) {

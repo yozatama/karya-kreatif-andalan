@@ -4,6 +4,7 @@ import {
   Post,
   Param,
   Body,
+  Headers,
   UseGuards,
   HttpCode,
   HttpStatus,
@@ -30,8 +31,11 @@ export class PaymentsController {
   @Public()
   @Post("webhook")
   @HttpCode(HttpStatus.OK)
-  handleWebhook(@Body() payload: any) {
-    return this.paymentsService.handleWebhook(payload);
+  handleWebhook(
+    @Headers("x-callback-token") callbackToken: string | undefined,
+    @Body() payload: any,
+  ) {
+    return this.paymentsService.handleWebhook(callbackToken, payload);
   }
 
   @ApiBearerAuth()

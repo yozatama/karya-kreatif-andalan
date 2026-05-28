@@ -67,7 +67,24 @@ export class VehiclesService {
 
   async create(dto: CreateVehicleDto) {
     return this.prisma.vehicle.create({
-      data: dto as any,
+      data: {
+        categoryId: dto.categoryId,
+        name: dto.name,
+        brand: dto.brand,
+        model: dto.model,
+        year: dto.year,
+        plateNumber: dto.plateNumber,
+        color: dto.color,
+        transmission: dto.transmission,
+        fuelType: dto.fuelType,
+        seats: dto.seats,
+        dailyRate: dto.dailyRate,
+        weeklyRate: dto.weeklyRate,
+        monthlyRate: dto.monthlyRate,
+        depositAmount: dto.depositAmount,
+        images: dto.images,
+        description: dto.description,
+      },
       include: { category: true },
     });
   }
@@ -76,7 +93,21 @@ export class VehiclesService {
     await this.findOne(id);
     return this.prisma.vehicle.update({
       where: { id },
-      data: dto as any,
+      data: {
+        ...(dto.name !== undefined && { name: dto.name }),
+        ...(dto.brand !== undefined && { brand: dto.brand }),
+        ...(dto.model !== undefined && { model: dto.model }),
+        ...(dto.year !== undefined && { year: dto.year }),
+        ...(dto.color !== undefined && { color: dto.color }),
+        ...(dto.dailyRate !== undefined && { dailyRate: dto.dailyRate }),
+        ...(dto.weeklyRate !== undefined && { weeklyRate: dto.weeklyRate }),
+        ...(dto.monthlyRate !== undefined && { monthlyRate: dto.monthlyRate }),
+        ...(dto.depositAmount !== undefined && { depositAmount: dto.depositAmount }),
+        ...(dto.images !== undefined && { images: dto.images }),
+        ...(dto.description !== undefined && { description: dto.description }),
+        ...(dto.status !== undefined && { status: dto.status }),
+        ...(dto.isAvailable !== undefined && { isAvailable: dto.isAvailable }),
+      },
       include: { category: true },
     });
   }

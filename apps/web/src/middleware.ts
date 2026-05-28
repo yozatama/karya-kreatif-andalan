@@ -10,6 +10,23 @@ function isPublicRoute(pathname: string): boolean {
   });
 }
 
+/**
+ * Decode the JWT payload (middle segment) without full cryptographic verification.
+ * This runs on the edge where we cannot perform full JWT verification efficiently.
+ * True authorization is enforced server-side by the backend API guards.
+ */
+function decodeJwtPayload(token: string): Record<string, unknown> | null {
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 3) return null;
+    const payload = parts[1];
+    const decoded = atob(payload.replace(/-/g, "+").replace(/_/g, "/"));
+    return JSON.parse(decoded);
+  } catch {
+    return null;
+  }
+}
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("auth-token")?.value;
@@ -25,8 +42,13 @@ export function middleware(request: NextRequest) {
   }
 
   if (pathname.startsWith("/admin")) {
-    const role = request.cookies.get("user-role")?.value;
-    if (role !== "admin") {
+    // Decode the JWT payload from the auth token to extract the role.
+    // NOTE: This is a client-side convenience check only. The backend API
+    // performs full JWT verification and RBAC enforcement on every request.
+    const payload = token ? decodeJwtPayload(token) : null;
+    const role = payload?.role as string | undefined;
+
+    if (role !== "admin" && role !== "ADMIN" && role !== "SUPER_ADMIN") {
       return NextResponse.redirect(new URL("/dashboard", request.url));
     }
   }

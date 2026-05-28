@@ -1,0 +1,31 @@
+{
+  "id": "FEAT-006",
+  "type": "fix",
+  "description": "Address code review findings: JWT secret safety, payment webhook verification, booking overlap check, ownership verification, vehicle type safety, admin middleware improvement, and test updates.",
+  "status": "in_progress",
+  "steps": [
+    "Fix JWT secret fallback in configuration.ts - throw on missing secrets in production, warn in dev",
+    "Add Xendit callback token verification to payments webhook",
+    "Add date-overlap check to bookings.service.ts create method",
+    "Add ownership check to bookings findOne, returnVehicle, createCheckpoint",
+    "Remove as any casts in vehicles.service.ts",
+    "Improve admin middleware to decode JWT payload instead of reading plain cookie",
+    "Update test mocks to account for new overlap check logic"
+  ],
+  "acceptance_criteria": [
+    "pnpm build passes",
+    "pnpm --filter backend test passes",
+    "JWT secrets throw in production if missing",
+    "Payment webhook verifies x-callback-token",
+    "Booking creation checks for date overlaps",
+    "findOne/returnVehicle/createCheckpoint verify ownership",
+    "No as any casts in vehicles.service.ts",
+    "Middleware decodes JWT payload for role check"
+  ],
+  "verification": [
+    "pnpm build",
+    "pnpm --filter backend test"
+  ],
+  "blocked_reason": null,
+  "findings": null
+}
