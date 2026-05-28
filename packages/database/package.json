@@ -9,13 +9,17 @@
     "lint": "echo 'lint ok'",
     "prisma": "prisma",
     "generate": "prisma generate",
-    "db:push": "prisma db push"
+    "db:push": "prisma db push",
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.2.0"
   },
   "devDependencies": {
+    "bcrypt": "^5.1.1",
+    "@types/bcrypt": "^5.0.2",
     "prisma": "^6.2.0",
+    "tsx": "^4.7.0",
     "typescript": "^5.7.0"
   }
 }
