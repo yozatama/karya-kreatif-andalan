@@ -2,7 +2,7 @@
   "id": "FEAT-002",
   "type": "feat",
   "description": "Build the NestJS backend API with modular architecture: authentication (JWT + Google + OTP), RBAC authorization, and core CRUD modules for vehicles, bookings, payments, users, and verification.",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Create apps/api/src/common/ with shared decorators (@Roles, @CurrentUser, @Public), guards (JwtAuthGuard, RolesGuard), interceptors (TransformInterceptor, LoggingInterceptor), filters (HttpExceptionFilter), and pipes (ValidationPipe)",
     "Create apps/api/src/modules/auth/ module with: auth.controller.ts (POST /auth/register, POST /auth/login, POST /auth/google, POST /auth/otp/send, POST /auth/otp/verify, POST /auth/refresh, GET /auth/me), auth.service.ts (register, login, validateGoogleToken, sendOTP, verifyOTP, refreshToken), jwt.strategy.ts, local.strategy.ts, DTOs with class-validator",
