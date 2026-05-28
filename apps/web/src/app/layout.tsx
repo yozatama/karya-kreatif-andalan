@@ -1,9 +1,19 @@
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import './globals.css';
 
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
+
 export const metadata: Metadata = {
-  title: 'Karya Kreatif Andalan - Rental Kendaraan',
-  description: 'Platform rental kendaraan terpercaya di Indonesia',
+  title: {
+    default: 'Karya Kreatif Andalan - Rental Kendaraan untuk Driver Online',
+    template: '%s | Karya Kreatif Andalan',
+  },
+  description: 'Platform rental kendaraan terpercaya untuk driver online di Indonesia. Sewa mobil dan motor listrik berkualitas dengan harga terjangkau.',
+  metadataBase: new URL('https://karyakreatif.id'),
 };
 
 export default function RootLayout({
@@ -12,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id">
+    <html lang="id" className={inter.variable}>
       <body className="min-h-screen bg-background font-sans antialiased">
         {children}
       </body>

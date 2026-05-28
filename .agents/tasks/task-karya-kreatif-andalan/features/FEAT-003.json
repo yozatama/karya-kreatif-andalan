@@ -2,7 +2,7 @@
   "id": "FEAT-003",
   "type": "feat",
   "description": "Build the public-facing website pages with Next.js 15 App Router: Landing page, Fleet listing, Fleet detail, About, Contact, FAQ, Partnership, and Blog pages. Implement mobile-first responsive design with the Karya Kreatif Andalan branding, Framer Motion animations, and SEO optimization.",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Create apps/web/src/lib/ utilities: utils.ts (cn helper), api.ts (axios/fetch wrapper with base URL config), constants.ts (brand colors, company info, nav links), fonts.ts (Google Fonts setup - Inter + Plus Jakarta Sans)",
     "Create apps/web/src/components/layout/ with: Header.tsx (responsive navbar with mobile hamburger menu, logo, nav links, auth buttons), Footer.tsx (company info, links, social media, WhatsApp), MobileNav.tsx (slide-in mobile navigation with Sheet component), WhatsAppFloat.tsx (floating WhatsApp button fixed bottom-right)",
