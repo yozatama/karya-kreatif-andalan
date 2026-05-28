@@ -12,8 +12,8 @@ out/
 .env.*.local
 
 # Database
-prisma/*.db
-prisma/*.db-journal
+*.db
+*.db-journal
 
 # IDE
 .vscode/
