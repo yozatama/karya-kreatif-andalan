@@ -2,7 +2,7 @@
   "id": "FEAT-002",
   "type": "feat",
   "description": "Build the NestJS backend API with modular architecture including authentication (JWT), RBAC authorization, and core business modules (users, vehicles, bookings, payments, maintenance).",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "Create the NestJS app entry point (main.ts) with CORS, validation pipes, Swagger documentation setup, and global exception filters in apps/backend/src/",
     "Create apps/backend/src/common/ with guards (JwtAuthGuard, RolesGuard), decorators (@Roles, @CurrentUser, @Public), interceptors (TransformInterceptor, LoggingInterceptor), filters (HttpExceptionFilter), and pipes (ValidationPipe)",
@@ -34,5 +34,5 @@
     "pnpm --filter backend test"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "Build compiles cleanly. All 14 unit tests pass. @nestjs/testing has peer dep warnings for v11 vs v10 installed but tests work fine. Swagger configured at /api/docs. Global prefix set to /api. Jest configured in package.json with ts-jest transform."
 }
