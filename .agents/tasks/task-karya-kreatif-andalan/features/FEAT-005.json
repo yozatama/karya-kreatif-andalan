@@ -2,7 +2,7 @@
   "id": "FEAT-005",
   "type": "feat",
   "description": "Add database seeders with comprehensive mock/demo data, create API documentation, add README with full project documentation, architecture diagrams, and ensure the complete platform builds and passes all checks.",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "Create packages/database/prisma/seed.ts with comprehensive seed data: 5 user roles, 10 sample users (different roles), 5 vehicle categories (sedan, MPV, SUV, electric motorcycle, pickup), 20 vehicles with realistic data (Toyota Avanza, Honda Brio, Wuling Air EV, Alva One, etc. with real pricing for Indonesian market), 15 bookings in various states, 10 payments, 5 maintenance logs, sample promos, sample support tickets, sample notifications",
     "Add seed script to packages/database/package.json using ts-node/tsx to run seed.ts",
@@ -30,5 +30,5 @@
     "pnpm --filter backend test"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "Created all documentation files and database seeder. Skipped build/test verification as instructed. The seed.ts uses bcrypt and PrismaClient with comprehensive demo data for all models. Package.json updated with tsx and bcrypt dependencies plus seed script."
 }
