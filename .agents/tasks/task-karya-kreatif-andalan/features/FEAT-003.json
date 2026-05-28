@@ -1,0 +1,41 @@
+{
+  "id": "FEAT-003",
+  "type": "feat",
+  "description": "Build the public-facing website pages with Next.js 15 App Router: Landing page, Fleet listing, Fleet detail, About, Contact, FAQ, Partnership, and Blog pages. Implement mobile-first responsive design with the Karya Kreatif Andalan branding, Framer Motion animations, and SEO optimization.",
+  "status": "pending",
+  "steps": [
+    "Create apps/web/src/lib/ utilities: utils.ts (cn helper), api.ts (axios/fetch wrapper with base URL config), constants.ts (brand colors, company info, nav links), fonts.ts (Google Fonts setup - Inter + Plus Jakarta Sans)",
+    "Create apps/web/src/components/layout/ with: Header.tsx (responsive navbar with mobile hamburger menu, logo, nav links, auth buttons), Footer.tsx (company info, links, social media, WhatsApp), MobileNav.tsx (slide-in mobile navigation with Sheet component), WhatsAppFloat.tsx (floating WhatsApp button fixed bottom-right)",
+    "Create apps/web/src/app/(public)/layout.tsx that wraps public pages with Header + Footer + WhatsAppFloat",
+    "Create apps/web/src/app/(public)/page.tsx - Landing Page with sections: HeroSection (gradient background, headline 'Solusi Kendaraan untuk Driver Online', search CTA, stats counters animated with Framer Motion), BenefitsSection (icon cards: penghasilan tinggi, kendaraan terawat, proses cepat, harga terjangkau), HowItWorksSection (step-by-step rental process with numbered timeline), PricingSection (pricing cards for different vehicle types), FleetShowcase (carousel of featured vehicles), TestimonialsSection (driver testimonials with avatars), FAQSection (accordion), CTASection (final call-to-action with gradient background)",
+    "Create apps/web/src/app/(public)/fleet/page.tsx - Fleet Listing with: search bar, filter sidebar (category, price range, transmission, availability), vehicle grid with cards showing image/name/price/specs/availability badge, pagination, loading skeletons, empty state. Use TanStack Query for data fetching with mock data initially.",
+    "Create apps/web/src/app/(public)/fleet/[id]/page.tsx - Fleet Detail with: image gallery (multiple photos with lightbox), vehicle specs table, rental pricing breakdown (daily/weekly/monthly), estimated earnings calculator for different platforms (Gojek/Grab/Maxim), availability calendar, terms and conditions accordion, booking CTA button, related vehicles section",
+    "Create apps/web/src/app/(public)/about/page.tsx - About page with: company story, mission/vision, team section, why drivers choose us stats, partner platforms (Gojek, Grab, Maxim, InDrive logos)",
+    "Create apps/web/src/app/(public)/contact/page.tsx - Contact page with: contact form (React Hook Form + Zod), WhatsApp direct link, office address with embedded map placeholder, operating hours",
+    "Create apps/web/src/app/(public)/faq/page.tsx - FAQ page with categorized accordion (Pendaftaran, Pembayaran, Kendaraan, Pengembalian)",
+    "Create apps/web/src/app/(public)/partnership/page.tsx - Partnership page for fleet investors: benefits, ROI calculator, partnership form",
+    "Create apps/web/src/app/(public)/blog/page.tsx and apps/web/src/app/(public)/blog/[slug]/page.tsx - Blog listing and detail with SEO-optimized layout, categories, mock blog posts about driver tips",
+    "Create apps/web/src/components/shared/ reusable components: VehicleCard.tsx, SectionTitle.tsx, StatsCounter.tsx (animated number counter), TestimonialCard.tsx, PricingCard.tsx, SearchBar.tsx, FilterPanel.tsx, EmptyState.tsx, LoadingSkeleton.tsx",
+    "Implement SEO: metadata in each page, OpenGraph tags, JSON-LD structured data for LocalBusiness and Product schemas, generateMetadata for dynamic pages",
+    "Add Framer Motion animations: fade-in on scroll for sections, stagger animations for card grids, smooth page transitions, hover effects on cards and buttons",
+    "Create apps/web/src/app/globals.css with TailwindCSS custom theme extensions, custom component styles, smooth scrolling, and dark mode CSS variables",
+    "Add mock data in apps/web/src/lib/mock-data.ts with realistic Indonesian vehicle data (Toyota Avanza, Honda Brio, Daihatsu Sigra, electric motorcycles like Alva One, Gesits), pricing in IDR, and testimonials"
+  ],
+  "acceptance_criteria": [
+    "pnpm run build succeeds for apps/web without errors",
+    "All public pages render with proper layout (header + content + footer)",
+    "Landing page has all required sections with animations",
+    "Fleet listing shows vehicle cards with working filters and pagination",
+    "Fleet detail page shows complete vehicle information",
+    "All pages have proper metadata for SEO",
+    "Mobile responsive design works at 375px, 768px, and 1024px widths",
+    "WhatsApp floating button is visible on all pages",
+    "No TypeScript errors in strict mode"
+  ],
+  "verification": [
+    "cd /projects/sandbox/karya-kreatif-andalan && pnpm run build",
+    "cd /projects/sandbox/karya-kreatif-andalan/apps/web && npx next lint"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

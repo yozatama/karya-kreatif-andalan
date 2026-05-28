@@ -1,0 +1,40 @@
+{
+  "id": "FEAT-004",
+  "type": "feat",
+  "description": "Build the authenticated user dashboard with all driver-facing features: dashboard home, vehicle booking flow, active rentals management, digital vehicle checkpoint, payments, driver verification, support center, and profile settings. Implement with Zustand state management, TanStack Query for server state, and dark mode support.",
+  "status": "pending",
+  "steps": [
+    "Create apps/web/src/app/(dashboard)/layout.tsx - Dashboard layout with: collapsible sidebar navigation (desktop), bottom tab navigation (mobile), top header with user avatar/notifications bell/theme toggle, breadcrumbs. Use Zustand store for sidebar state.",
+    "Create apps/web/src/stores/ with: auth.store.ts (user session, tokens), ui.store.ts (sidebar open/closed, theme, mobile nav), notifications.store.ts (unread count, notification list)",
+    "Create apps/web/src/hooks/ with: useAuth.ts (auth state + methods), useApi.ts (TanStack Query wrapper with auth headers), useMediaQuery.ts (responsive breakpoints), useDebounce.ts",
+    "Create apps/web/src/app/(dashboard)/dashboard/page.tsx - Dashboard Home with: welcome greeting, active rental card (vehicle info, days remaining, next payment), upcoming payments list, rental history summary chart (Recharts), notifications feed, estimated earnings widget, quick actions (new booking, support, profile)",
+    "Create apps/web/src/app/(dashboard)/bookings/page.tsx and /bookings/new/page.tsx - Booking flow: multi-step form (select vehicle -> choose duration -> pickup location -> review -> digital agreement -> payment), real-time availability calendar, duration picker (daily/weekly/monthly), pickup location selector, rental agreement checkbox with modal, summary with price breakdown",
+    "Create apps/web/src/app/(dashboard)/rentals/page.tsx and /rentals/[id]/page.tsx - My Rentals: active rental cards with status badges, remaining days countdown, payment history table, vehicle report button, return request flow with confirmation dialog",
+    "Create apps/web/src/app/(dashboard)/checkpoint/page.tsx and /checkpoint/[bookingId]/page.tsx - Digital Vehicle Checkpoint: multi-step photo upload (exterior front/back/sides, interior, odometer), vehicle condition checklist (toggle switches for each item), odometer reading input, notes textarea, submit with confirmation",
+    "Create apps/web/src/app/(dashboard)/payments/page.tsx - Payments: payment methods selection (VA, e-wallet, QRIS mockups), invoice list with download buttons, deposit tracking with progress bar, installment schedule table, payment status badges (paid/pending/overdue)",
+    "Create apps/web/src/app/(dashboard)/verification/page.tsx - Driver Verification: step-by-step document upload (KTP front/back, SIM A/C, selfie with KTP), upload progress indicators, verification status timeline (submitted -> under review -> approved/rejected), rejection reason display with re-upload option",
+    "Create apps/web/src/app/(dashboard)/support/page.tsx and /support/[ticketId]/page.tsx - Support Center: create ticket form (category, priority, description), ticket list with status filters, ticket detail with message thread (chat-style UI), WhatsApp direct support button, emergency help section",
+    "Create apps/web/src/app/(dashboard)/profile/page.tsx - Profile Settings: personal information form (React Hook Form + Zod), emergency contact form, password change form, notification preferences (toggles for email/WhatsApp/push), theme preference (light/dark/system), account danger zone (deactivate)",
+    "Create apps/web/src/components/dashboard/ shared components: DashboardCard.tsx, StatusBadge.tsx, DataTable.tsx (with sorting/pagination), FileUpload.tsx (drag-and-drop with preview), StepProgress.tsx (multi-step indicator), PaymentMethodCard.tsx, RentalCountdown.tsx, NotificationItem.tsx",
+    "Implement dark mode: ThemeProvider using next-themes, CSS variables for theme colors, toggle in header, persist preference",
+    "Add toast notifications using shadcn/ui toast for: booking confirmed, payment received, document uploaded, rental status changed",
+    "Implement loading states: skeleton loaders for all data-heavy pages, suspense boundaries, error boundaries with retry buttons"
+  ],
+  "acceptance_criteria": [
+    "pnpm run build succeeds for apps/web without errors",
+    "Dashboard layout renders correctly on mobile (bottom nav) and desktop (sidebar)",
+    "Multi-step booking form navigates forward/backward without losing state",
+    "File upload components show preview and progress",
+    "Dark mode toggles correctly and persists across page navigations",
+    "All forms validate with Zod schemas and show inline errors",
+    "Loading skeletons appear for all async data sections",
+    "Toast notifications display on key actions",
+    "No TypeScript errors in strict mode"
+  ],
+  "verification": [
+    "cd /projects/sandbox/karya-kreatif-andalan && pnpm run build",
+    "cd /projects/sandbox/karya-kreatif-andalan/apps/web && npx next lint"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

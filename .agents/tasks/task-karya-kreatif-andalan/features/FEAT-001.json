@@ -1,0 +1,37 @@
+{
+  "id": "FEAT-001",
+  "type": "chore",
+  "description": "Scaffold the monorepo structure with pnpm workspaces, configure Next.js 15 (App Router) frontend, NestJS backend, shared packages, Prisma ORM with full database schema, and all tooling (ESLint, Prettier, TypeScript).",
+  "status": "in_progress",
+  "steps": [
+    "Create root package.json with pnpm workspaces config pointing to apps/* and packages/*",
+    "Create pnpm-workspace.yaml with packages: ['apps/*', 'packages/*']",
+    "Create root tsconfig.json, .prettierrc, .eslintrc.js, .gitignore, .env.example",
+    "Scaffold apps/web as Next.js 15 App Router project with TypeScript, TailwindCSS v4, and the following dependencies: next@15, react@19, typescript, tailwindcss, @tailwindcss/postcss, framer-motion, zustand, @tanstack/react-query, react-hook-form, zod, next-auth, lucide-react, recharts, clsx, tailwind-merge, class-variance-authority",
+    "Configure apps/web/tailwind.config.ts with the Karya Kreatif Andalan color palette: emerald green (#10B981, #059669), dark navy (#1E293B, #0F172A), white, soft gray (#F8FAFC, #F1F5F9)",
+    "Initialize shadcn/ui in apps/web with the custom theme colors and install these components: button, card, input, label, select, dialog, dropdown-menu, sheet, tabs, badge, avatar, separator, skeleton, toast, form, table, calendar, command, popover",
+    "Scaffold apps/api as NestJS project with TypeScript and these dependencies: @nestjs/core, @nestjs/common, @nestjs/platform-express, @nestjs/config, @nestjs/jwt, @nestjs/passport, @nestjs/swagger, @prisma/client, prisma, passport, passport-jwt, passport-local, bcryptjs, class-validator, class-transformer, multer, uuid, dayjs",
+    "Create apps/api/prisma/schema.prisma with full database schema including all entities: User, Role, UserRole, Vehicle, VehicleCategory, VehicleImage, Booking, BookingStatus, Payment, Invoice, Penalty, MaintenanceLog, VehicleCheckpoint, CheckpointImage, Document, DriverVerification, Promo, PromoUsage, Notification, SupportTicket, TicketMessage, AuditLog, BlogPost, FAQ, Banner, Referral. Use SQLite as dev datasource with proper relations, enums, indexes, and timestamps.",
+    "Create packages/shared with shared Zod validation schemas (auth, booking, vehicle, payment) and TypeScript types/interfaces that both apps can import",
+    "Add root-level scripts: build, dev, lint, test, format, db:generate, db:migrate, db:seed",
+    "Create apps/api/prisma/seed.ts with comprehensive seed data: 5 user roles, sample users for each role, 3 vehicle categories (sedan, MPV, electric motorcycle), 10 sample vehicles with realistic data for Indonesian ride-hailing market, sample bookings, and promo codes",
+    "Verify: pnpm install succeeds, pnpm run build succeeds for both apps, prisma generate works"
+  ],
+  "acceptance_criteria": [
+    "pnpm install completes without errors from root",
+    "pnpm run build compiles both apps/web and apps/api successfully",
+    "Prisma schema is valid (npx prisma validate passes)",
+    "npx prisma generate creates the Prisma client",
+    "TypeScript compilation succeeds with strict mode in both apps",
+    "Shared package can be imported by both apps",
+    "Seed script runs without errors against SQLite"
+  ],
+  "verification": [
+    "cd /projects/sandbox/karya-kreatif-andalan && pnpm install",
+    "cd /projects/sandbox/karya-kreatif-andalan && pnpm run build",
+    "cd /projects/sandbox/karya-kreatif-andalan/apps/api && npx prisma validate",
+    "cd /projects/sandbox/karya-kreatif-andalan/apps/api && npx prisma generate"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

@@ -1,0 +1,41 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "Build the NestJS backend API with modular architecture: authentication (JWT + Google + OTP), RBAC authorization, and core CRUD modules for vehicles, bookings, payments, users, and verification.",
+  "status": "pending",
+  "steps": [
+    "Create apps/api/src/common/ with shared decorators (@Roles, @CurrentUser, @Public), guards (JwtAuthGuard, RolesGuard), interceptors (TransformInterceptor, LoggingInterceptor), filters (HttpExceptionFilter), and pipes (ValidationPipe)",
+    "Create apps/api/src/modules/auth/ module with: auth.controller.ts (POST /auth/register, POST /auth/login, POST /auth/google, POST /auth/otp/send, POST /auth/otp/verify, POST /auth/refresh, GET /auth/me), auth.service.ts (register, login, validateGoogleToken, sendOTP, verifyOTP, refreshToken), jwt.strategy.ts, local.strategy.ts, DTOs with class-validator",
+    "Create apps/api/src/modules/users/ module with: users.controller.ts (GET /users, GET /users/:id, PATCH /users/:id, DELETE /users/:id, GET /users/:id/documents), users.service.ts with Prisma queries, proper RBAC (admin-only for list/delete)",
+    "Create apps/api/src/modules/vehicles/ module with: vehicles.controller.ts (GET /vehicles - public listing with filters/pagination/sorting, GET /vehicles/:id, POST /vehicles - admin, PATCH /vehicles/:id - admin, DELETE /vehicles/:id - admin, POST /vehicles/:id/images - admin), vehicles.service.ts with search, filter by category/price/availability/transmission, pagination",
+    "Create apps/api/src/modules/bookings/ module with: bookings.controller.ts (POST /bookings, GET /bookings, GET /bookings/:id, PATCH /bookings/:id/status - admin approve/reject, POST /bookings/:id/extend, POST /bookings/:id/return), bookings.service.ts implementing the full booking flow (create -> pending -> approved -> active -> return_requested -> completed), vehicle availability checking",
+    "Create apps/api/src/modules/payments/ module with: payments.controller.ts (POST /payments/create-invoice, POST /payments/webhook - Xendit callback, GET /payments/:bookingId, GET /payments/invoices/:id), payments.service.ts with Xendit integration stubs (VA, e-wallet, QRIS), invoice generation, deposit tracking",
+    "Create apps/api/src/modules/verification/ module with: verification.controller.ts (POST /verification/upload-document, GET /verification/status, PATCH /verification/:id/approve - admin, PATCH /verification/:id/reject - admin), verification.service.ts for KTP/SIM/selfie document management",
+    "Create apps/api/src/modules/vehicle-checkpoint/ module with: checkpoint.controller.ts (POST /checkpoints, GET /checkpoints/:bookingId, POST /checkpoints/:id/photos), checkpoint.service.ts for digital vehicle inspection before/after rental",
+    "Create apps/api/src/modules/maintenance/ module with: maintenance.controller.ts (GET /maintenance, POST /maintenance, PATCH /maintenance/:id), maintenance.service.ts for service schedules and repair logs - admin/maintenance role only",
+    "Create apps/api/src/modules/notifications/ module with: notifications.controller.ts (GET /notifications, PATCH /notifications/:id/read, PATCH /notifications/read-all), notifications.service.ts with email/WhatsApp/push notification stubs",
+    "Create apps/api/src/modules/support/ module with: support.controller.ts (POST /support/tickets, GET /support/tickets, GET /support/tickets/:id, POST /support/tickets/:id/messages), support.service.ts for ticketing system",
+    "Create apps/api/src/modules/admin/ module with: admin.controller.ts (GET /admin/dashboard - analytics data, GET /admin/revenue, GET /admin/fleet-utilization, GET /admin/reports), admin.service.ts aggregating dashboard metrics",
+    "Create apps/api/src/modules/promos/ module with: promos.controller.ts (POST /promos - admin, GET /promos, PATCH /promos/:id, POST /promos/validate, DELETE /promos/:id), promos.service.ts for promo code and referral management",
+    "Create apps/api/src/modules/cms/ module with: cms.controller.ts (CRUD for /cms/blogs, /cms/faqs, /cms/banners), cms.service.ts for content management",
+    "Configure Swagger/OpenAPI documentation at /api/docs with all endpoints documented",
+    "Add rate limiting with @nestjs/throttler on auth endpoints",
+    "Create apps/api/src/prisma/prisma.service.ts and prisma.module.ts for DI"
+  ],
+  "acceptance_criteria": [
+    "pnpm run build succeeds for apps/api",
+    "All modules are properly registered in app.module.ts",
+    "Swagger docs generate without errors",
+    "Auth flow: register -> login -> JWT issued -> protected routes accessible",
+    "RBAC: admin-only routes return 403 for regular users",
+    "Vehicle listing supports pagination, filtering, and sorting",
+    "Booking flow transitions between statuses correctly",
+    "All DTOs have proper validation decorators"
+  ],
+  "verification": [
+    "cd /projects/sandbox/karya-kreatif-andalan && pnpm run build",
+    "cd /projects/sandbox/karya-kreatif-andalan/apps/api && npx ts-node -e \"console.log('API compiles')\"" 
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

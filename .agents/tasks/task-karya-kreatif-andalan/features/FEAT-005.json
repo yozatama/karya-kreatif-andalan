@@ -1,0 +1,39 @@
+{
+  "id": "FEAT-005",
+  "type": "feat",
+  "description": "Build the admin panel with all management features: dashboard analytics with Recharts, fleet management, booking management, user management, finance module, maintenance module, promo/marketing, CMS management, and reports. Implement role-based views for Super Admin, Operational Admin, Finance Admin, and Maintenance Team.",
+  "status": "pending",
+  "steps": [
+    "Create apps/web/src/app/(admin)/layout.tsx - Admin layout with: full sidebar navigation organized by role sections, top header with admin user info/notifications/quick search (Command palette with shadcn Command), role indicator badge. Different nav items visible based on user role.",
+    "Create apps/web/src/app/(admin)/admin/page.tsx - Admin Dashboard: revenue overview cards (total revenue, active rentals, pending bookings, fleet utilization %), revenue chart (Recharts LineChart - daily/weekly/monthly toggle), fleet status donut chart, active drivers bar chart, recent bookings table, maintenance alerts list, quick action buttons",
+    "Create apps/web/src/app/(admin)/admin/fleet/page.tsx and /admin/fleet/[id]/page.tsx and /admin/fleet/new/page.tsx - Fleet Management: vehicle list with DataTable (search, filter by category/status, sort, pagination), add/edit vehicle form (multi-step: basic info -> specs -> pricing -> photos upload), vehicle status management (available/rented/maintenance/inactive), bulk actions (activate/deactivate)",
+    "Create apps/web/src/app/(admin)/admin/bookings/page.tsx and /admin/bookings/[id]/page.tsx - Booking Management: booking list with status tabs (pending/approved/active/completed/cancelled), booking detail with full timeline, approve/reject dialog with reason, assign vehicle dropdown, extension management, return processing with damage assessment form",
+    "Create apps/web/src/app/(admin)/admin/users/page.tsx and /admin/users/[id]/page.tsx - User Management: user list with DataTable (search, filter by verification status/role), user detail with documents tab (KTP/SIM/selfie images with approve/reject buttons), user rental history, suspend/ban actions with reason input, fraud flag indicators",
+    "Create apps/web/src/app/(admin)/admin/finance/page.tsx - Finance Module (Finance Admin role): payment monitoring table with status filters, deposit management (track deposits per user), penalty calculation form (damage type, amount, description), revenue reports with date range picker, refund management (approve/process/reject), invoice generation and list",
+    "Create apps/web/src/app/(admin)/admin/maintenance/page.tsx and /admin/maintenance/[id]/page.tsx - Maintenance Module (Maintenance Team role): service schedule calendar view, repair history per vehicle, create maintenance record form (vehicle, type, cost, parts, notes), maintenance cost tracking charts, upcoming service alerts",
+    "Create apps/web/src/app/(admin)/admin/promos/page.tsx - Promo & Marketing: promo code CRUD (code, type percentage/fixed, value, valid dates, max uses, vehicle categories), referral program management, campaign creation form, promo usage analytics",
+    "Create apps/web/src/app/(admin)/admin/cms/page.tsx with sub-routes for /blogs, /faqs, /banners - CMS Management: rich text editor for blog posts (use textarea with markdown preview for now), FAQ CRUD with category grouping, banner management with image upload and scheduling (active dates)",
+    "Create apps/web/src/app/(admin)/admin/reports/page.tsx - Reports & Analytics: revenue report with export (CSV mock), fleet utilization heatmap, driver retention chart, profitability by vehicle chart, overdue payments aging report, date range filters for all reports",
+    "Create apps/web/src/components/admin/ shared components: AdminDataTable.tsx (full-featured table with column visibility, row actions, bulk select), AdminStatCard.tsx, AdminChart.tsx (wrapper for Recharts), ApprovalDialog.tsx, StatusTimeline.tsx, DocumentViewer.tsx (image viewer for verification docs), DateRangePicker.tsx",
+    "Implement role-based navigation: conditionally render nav sections based on user role (Super Admin sees all, Operational Admin sees fleet/bookings/users, Finance Admin sees finance/reports, Maintenance Team sees maintenance only)",
+    "Add admin mock data in apps/web/src/lib/mock-admin-data.ts with: 50 sample bookings in various statuses, revenue data for charts (6 months), fleet utilization data, sample maintenance records, sample promos"
+  ],
+  "acceptance_criteria": [
+    "pnpm run build succeeds for apps/web without errors",
+    "Admin dashboard renders all chart components without errors",
+    "DataTable components support search, filter, sort, and pagination",
+    "Fleet management CRUD forms validate properly",
+    "Booking approval/rejection flow works with confirmation dialogs",
+    "User verification document viewer displays images",
+    "Finance module shows payment tables with proper formatting (IDR currency)",
+    "Role-based navigation shows correct items per role",
+    "All admin pages have loading skeletons and empty states",
+    "No TypeScript errors in strict mode"
+  ],
+  "verification": [
+    "cd /projects/sandbox/karya-kreatif-andalan && pnpm run build",
+    "cd /projects/sandbox/karya-kreatif-andalan/apps/web && npx next lint"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}
