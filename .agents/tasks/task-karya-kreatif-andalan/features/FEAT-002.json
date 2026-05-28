@@ -2,7 +2,7 @@
   "id": "FEAT-002",
   "type": "feat",
   "description": "Build the NestJS backend API with modular architecture including authentication (JWT), RBAC authorization, and core business modules (users, vehicles, bookings, payments, maintenance).",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Create the NestJS app entry point (main.ts) with CORS, validation pipes, Swagger documentation setup, and global exception filters in apps/backend/src/",
     "Create apps/backend/src/common/ with guards (JwtAuthGuard, RolesGuard), decorators (@Roles, @CurrentUser, @Public), interceptors (TransformInterceptor, LoggingInterceptor), filters (HttpExceptionFilter), and pipes (ValidationPipe)",
