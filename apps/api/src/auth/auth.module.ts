@@ -12,10 +12,16 @@ import { UsersModule } from '../users/users.module';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET') || 'super-secret-key',
-        signOptions: { expiresIn: '1d' },
-      }),
+      useFactory: (configService: ConfigService) => {
+        const jwtSecret = configService.get<string>('JWT_SECRET');
+        if (!jwtSecret) {
+          throw new Error('JWT_SECRET environment variable is not set');
+        }
+        return {
+          secret: jwtSecret,
+          signOptions: { expiresIn: '1d' },
+        };
+      },
       inject: [ConfigService],
     }),
     UsersModule,

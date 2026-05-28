@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
       message: 'Login berhasil',
     });
 
-    response.cookies.set(AUTH_COOKIE_NAME, user.id, {
+    response.cookies.set(AUTH_COOKIE_NAME, JSON.stringify({ id: user.id, email: user.email, role: user.role }), {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

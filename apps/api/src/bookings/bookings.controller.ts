@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Patch, Param, Body, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Param, Body, UseGuards, Request, ForbiddenException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { BookingsService } from './bookings.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
@@ -33,8 +33,13 @@ export class BookingsController {
   @Get(':id')
   @ApiOperation({ summary: 'Get booking by ID' })
   @ApiResponse({ status: 200, description: 'Booking found' })
-  async findById(@Param('id') id: string) {
-    return this.bookingsService.findById(id);
+  async findById(@CurrentUser() user: any, @Param('id') id: string) {
+    const booking = await this.bookingsService.findById(id);
+    const isAdmin = ['SUPER_ADMIN', 'OPERATIONAL_ADMIN', 'FINANCE_ADMIN'].includes(user.role?.name);
+    if (booking.userId !== user.id && !isAdmin) {
+      throw new ForbiddenException('You do not have access to this booking');
+    }
+    return booking;
   }
 
   @Patch(':id/approve')
@@ -67,7 +72,12 @@ export class BookingsController {
   @Patch(':id/return')
   @ApiOperation({ summary: 'Request return for a booking (user)' })
   @ApiResponse({ status: 200, description: 'Return requested' })
-  async requestReturn(@Param('id') id: string) {
+  async requestReturn(@CurrentUser() user: any, @Param('id') id: string) {
+    const booking = await this.bookingsService.findById(id);
+    const isAdmin = ['SUPER_ADMIN', 'OPERATIONAL_ADMIN', 'FINANCE_ADMIN'].includes(user.role?.name);
+    if (booking.userId !== user.id && !isAdmin) {
+      throw new ForbiddenException('You do not have access to this booking');
+    }
     return this.bookingsService.requestReturn(id);
   }
 

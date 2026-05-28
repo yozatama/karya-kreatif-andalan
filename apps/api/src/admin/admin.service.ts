@@ -91,18 +91,25 @@ export class AdminService {
       },
     });
 
-    const repeatDrivers = await this.prisma.user.count({
+    // Correct repeat drivers count: drivers with more than 1 booking
+    const driversWithBookings = await this.prisma.user.findMany({
       where: {
         role: { name: 'DRIVER' },
         bookings: { some: {} },
       },
+      include: {
+        _count: { select: { bookings: true } },
+      },
     });
+    const repeatDriverCount = driversWithBookings.filter(
+      (d) => d._count.bookings > 1,
+    ).length;
 
     return {
       totalDrivers,
       activeDrivers,
       retentionRate: totalDrivers > 0 ? Math.round((activeDrivers / totalDrivers) * 100) : 0,
-      repeatBookingRate: totalDrivers > 0 ? Math.round((repeatDrivers / totalDrivers) * 100) : 0,
+      repeatBookingRate: totalDrivers > 0 ? Math.round((repeatDriverCount / totalDrivers) * 100) : 0,
     };
   }
 }

@@ -12,12 +12,25 @@ const authRoutes = ['/auth'];
 // Admin-only routes
 const adminRoutes = ['/admin'];
 
-// Mock admin user IDs (in production this would be a DB lookup)
-const ADMIN_IDS = ['2', 'admin@karyakreatif.co.id'];
+const ADMIN_ROLES = ['admin'];
+
+function parseAuthCookie(cookieValue: string | undefined): { id: string; email: string; role: string } | null {
+  if (!cookieValue) return null;
+  try {
+    const parsed = JSON.parse(cookieValue);
+    if (parsed && parsed.id && parsed.role) {
+      return parsed;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const token = request.cookies.get(AUTH_COOKIE_NAME)?.value;
+  const cookieValue = request.cookies.get(AUTH_COOKIE_NAME)?.value;
+  const authData = parseAuthCookie(cookieValue);
 
   // Check if the route is protected
   const isProtectedRoute = protectedRoutes.some((route) =>
@@ -35,19 +48,19 @@ export function middleware(request: NextRequest) {
   );
 
   // Not authenticated trying to access protected route
-  if (isProtectedRoute && !token) {
+  if (isProtectedRoute && !authData) {
     const loginUrl = new URL('/auth/login', request.url);
     loginUrl.searchParams.set('callbackUrl', pathname);
     return NextResponse.redirect(loginUrl);
   }
 
   // Authenticated user trying to access auth routes
-  if (isAuthRoute && token) {
+  if (isAuthRoute && authData) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
   // Non-admin user trying to access admin routes
-  if (isAdminRoute && token && !ADMIN_IDS.includes(token)) {
+  if (isAdminRoute && authData && !ADMIN_ROLES.includes(authData.role)) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 

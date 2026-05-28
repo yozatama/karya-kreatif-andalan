@@ -42,9 +42,19 @@ export const AUTH_COOKIE_NAME = 'kka-auth-token';
 
 export function getCurrentUser(token: string | undefined): AuthUser | null {
   if (!token) return null;
-  // Mock: decode token as user ID
-  const user = MOCK_USERS.find((u) => u.id === token || u.email === token);
-  return user || null;
+  try {
+    // Try parsing as JSON (new format: { id, email, role })
+    const parsed = JSON.parse(token);
+    if (parsed && parsed.id) {
+      const user = MOCK_USERS.find((u) => u.id === parsed.id || u.email === parsed.email);
+      return user || null;
+    }
+  } catch {
+    // Fallback: treat as raw user ID for backward compatibility
+    const user = MOCK_USERS.find((u) => u.id === token || u.email === token);
+    return user || null;
+  }
+  return null;
 }
 
 export function isAuthenticated(token: string | undefined): boolean {

@@ -1,14 +1,18 @@
-import { Controller, Get, Post, Param, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, UseGuards, Headers, UnauthorizedException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { PaymentsService } from './payments.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { ConfigService } from '@nestjs/config';
 
 @ApiTags('payments')
 @Controller('payments')
 export class PaymentsController {
-  constructor(private paymentsService: PaymentsService) {}
+  constructor(
+    private paymentsService: PaymentsService,
+    private configService: ConfigService,
+  ) {}
 
   @Post()
   @UseGuards(JwtAuthGuard)
@@ -40,7 +44,11 @@ export class PaymentsController {
   @Post('webhook')
   @ApiOperation({ summary: 'Xendit payment webhook callback' })
   @ApiResponse({ status: 200, description: 'Webhook processed' })
-  async webhook(@Body() payload: any) {
+  async webhook(@Headers('x-callback-token') callbackToken: string, @Body() payload: any) {
+    const expectedToken = this.configService.get<string>('XENDIT_CALLBACK_TOKEN');
+    if (!callbackToken || callbackToken !== expectedToken) {
+      throw new UnauthorizedException('Invalid callback token');
+    }
     return this.paymentsService.processWebhook(payload);
   }
 

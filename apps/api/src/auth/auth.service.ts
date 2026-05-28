@@ -88,7 +88,7 @@ export class AuthService {
 
   async whatsappOtp(phone: string) {
     // Stub: In production, send OTP via WhatsApp
-    return { message: 'OTP sent to ' + phone, otp: '123456' };
+    return { message: 'OTP sent successfully', expiresIn: 300 };
   }
 
   private async generateTokens(userId: string, email: string) {
