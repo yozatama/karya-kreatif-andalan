@@ -2,7 +2,7 @@
   "id": "FEAT-006",
   "type": "fix",
   "description": "Address code review findings: JWT secret safety, payment webhook verification, booking overlap check, ownership verification, vehicle type safety, admin middleware improvement, and test updates.",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "Fix JWT secret fallback in configuration.ts - throw on missing secrets in production, warn in dev",
     "Add Xendit callback token verification to payments webhook",
@@ -27,5 +27,5 @@
     "pnpm --filter backend test"
   ],
   "blocked_reason": null,
-  "findings": null
+  "findings": "All 7 review fixes implemented. Build passes for all 5 workspace packages. 19 tests pass (up from 14). The bookings service now has findFirst mock for overlap check. The findOne method accepts an optional requestingUser parameter for backward compatibility with approve/reject flows that call it internally without ownership checks."
 }
