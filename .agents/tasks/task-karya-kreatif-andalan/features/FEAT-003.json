@@ -2,7 +2,7 @@
   "id": "FEAT-003",
   "type": "feat",
   "description": "Build the Next.js 15 public website with all pages: Landing page (hero, search, benefits, fleet showcase, pricing, testimonials, FAQ, CTA), Fleet listing with filters, Fleet detail with gallery and booking CTA, About Us, Contact Us, FAQ, Partnership, and Blog pages. Full responsive mobile-first design with Framer Motion animations, dark mode support, and SEO optimization.",
-  "status": "pending",
+  "status": "in_progress",
   "steps": [
     "Create the root layout (apps/web/src/app/layout.tsx) with Inter font, theme provider for dark mode, Toaster, and global navigation. Create a ThemeProvider using next-themes.",
     "Build the Navbar component (components/layout/navbar.tsx) with logo, navigation links, mobile hamburger menu (Sheet component), dark mode toggle, and login/register buttons. Sticky on scroll with backdrop blur.",
