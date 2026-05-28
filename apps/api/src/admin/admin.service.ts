@@ -64,7 +64,7 @@ export class AdminService {
     });
 
     const totalVehicles = vehicles.length;
-    const activeVehicles = vehicles.filter((v) => v.bookings.length > 0).length;
+    const activeVehicles = vehicles.filter((v: any) => v.bookings.length > 0).length;
     const utilizationRate = totalVehicles > 0 ? (activeVehicles / totalVehicles) * 100 : 0;
 
     return {
@@ -103,7 +103,7 @@ export class AdminService {
     // Filter to only count drivers (not other roles)
     const driverUsers = await this.prisma.user.findMany({
       where: {
-        id: { in: driversWithMultipleBookings.map((d) => d.userId) },
+        id: { in: driversWithMultipleBookings.map((d: any) => d.userId) },
         role: { name: 'DRIVER' },
       },
       select: { id: true },

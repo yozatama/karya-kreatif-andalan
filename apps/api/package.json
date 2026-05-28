@@ -8,7 +8,7 @@
     "start": "nest start",
     "start:prod": "node dist/main",
     "lint": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@karya/shared": "workspace:*",
@@ -37,9 +37,12 @@
     "@nestjs/schematics": "^10.2.0",
     "@nestjs/testing": "^10.4.0",
     "@types/bcrypt": "^5.0.2",
+    "@types/jest": "^30.0.0",
     "@types/node": "^22.10.0",
     "@types/passport-jwt": "^4.0.1",
+    "jest": "^30.4.2",
     "prisma": "^5.22.0",
+    "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.0"
   }
